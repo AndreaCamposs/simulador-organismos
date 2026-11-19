@@ -1,0 +1,2650 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="handbook">
+  <title>Simulador y Guía Operativa para la Jornada Electoral — El Salvador</title>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces */
+      --background: #ffffff;
+      --surface-container-low: #f3f2f1;
+      --surface-container: #e8e7e5;
+      --surface-container-high: #dbdad9;
+
+      /* Ink */
+      --on-surface: #0b0c0c;
+      --on-surface-variant: #505a5f;
+
+      /* Rules */
+      --outline: #0b0c0c;
+      --outline-variant: #b1b4b6;
+
+      /* Accents */
+      --primary: #162e51;
+      --on-primary: #ffffff;
+      --primary-container: #d2e2f1;
+      --on-primary-container: #0c2d4a;
+      --secondary: #4c2c92;
+      --tertiary: #1a569e;
+      --error: #d4351c;
+      --on-error: #ffffff;
+
+      /* Semantic */
+      --positive: #00703c;
+      --positive-container: #e6f4ec;
+      --warning: #8f4700;
+      --warning-container: #fdf3e7;
+      --error-container: #fdeceb;
+      --focus: #ffdd00;
+
+      /* Data series */
+      --data-1: #1a569e;
+      --data-2: #c75a0a;
+      --data-3: #28a197;
+      --data-4: #4c2c92;
+      --data-context: #b1b4b6;
+
+      /* Fonts */
+      --font-headline: 'Public Sans', sans-serif;
+      --font-body: 'Public Sans', sans-serif;
+      --font-label: 'Public Sans', sans-serif;
+
+      /* Shape */
+      --rounded: 0;
+      --rounded-lg: 0;
+      --rounded-full: 0;
+
+      /* Style effects */
+      --top-index-rule: 6px solid var(--primary);
+      --inset-rule: 5px solid var(--tertiary);
+      --inset-rule-error: 5px solid var(--error);
+      --inset-rule-positive: 5px solid var(--positive);
+      --inset-rule-warning: 5px solid var(--warning);
+      --button-ground: 0 2px 0 var(--primary-shadow);
+      --primary-shadow: #091526;
+      --button-ground-secondary: 0 2px 0 var(--secondary-shadow);
+      --secondary-shadow: #858686;
+      --focus-yellow: #ffdd00;
+      --focus-ring: 3px solid var(--focus-yellow);
+      --focus-bar: inset 0 0 0 2px var(--on-surface);
+      --focus-underline: 0 -2px var(--focus-yellow), 0 4px var(--on-surface);
+
+      /* Type scale (Narrative) */
+      --display-size: clamp(2.125rem, 1.4rem + 2.6vw, 3.25rem);
+      --headline-size: clamp(1.5rem, 1.15rem + 1.4vw, 2.25rem);
+      --subhead-size: clamp(1.1875rem, 1.05rem + 0.5vw, 1.4375rem);
+      --body-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xl);
+      padding: var(--space-lg);
+      max-width: 1120px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-family: var(--font-headline);
+      color: var(--on-surface);
+      margin: 0;
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+    }
+    h1 {
+      font-size: var(--display-size);
+      font-weight: 800;
+      margin-top: var(--space-md);
+      margin-bottom: var(--space-md);
+      max-width: 22ch;
+    }
+    h2 {
+      font-size: var(--headline-size);
+      font-weight: 800;
+      margin-bottom: var(--space-sm);
+    }
+    h3 {
+      font-size: var(--subhead-size);
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+    }
+    h4 {
+      font-size: var(--body-size);
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+    }
+    p {
+      margin: 0 0 var(--space-md) 0;
+      max-width: 68ch;
+    }
+    ul, ol {
+      margin: 0 0 var(--space-md) 0;
+      padding-left: var(--space-lg);
+      max-width: 66ch;
+    }
+    li { margin-bottom: var(--space-xs); }
+    .lede {
+      font-size: var(--subhead-size);
+      line-height: 1.45;
+      color: var(--on-surface);
+      max-width: 62ch;
+      margin-bottom: var(--space-lg);
+    }
+    .muted {
+      color: var(--on-surface-variant);
+      font-size: 0.95rem;
+    }
+    .tabular { font-variant-numeric: tabular-nums; }
+
+    /* Links */
+    a {
+      color: var(--tertiary);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      font-weight: 600;
+    }
+    a:hover { text-decoration-thickness: 3px; }
+    a:visited { color: var(--secondary); }
+    a:focus-visible {
+      outline: none;
+      background: var(--focus-yellow);
+      color: var(--on-surface);
+      text-decoration: none;
+      box-shadow: var(--focus-underline);
+    }
+
+    /* Defining Treatments */
+    .index-header {
+      border-top: var(--top-index-rule);
+      border-bottom: 1px solid var(--on-surface);
+      padding: var(--space-sm) 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .section-head {
+      border-top: var(--top-index-rule);
+      padding-top: var(--space-lg);
+      margin-top: var(--space-lg);
+    }
+
+    .section-kicker {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-sm);
+    }
+
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 var(--space-xs);
+      background: var(--primary);
+      color: var(--on-primary);
+      font-weight: 800;
+      font-size: 0.8125rem;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    .status-tag {
+      display: inline-block;
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: var(--space-xs) var(--space-sm);
+    }
+    .status-tag--positive {
+      background: var(--positive-container);
+      color: var(--positive);
+    }
+    .status-tag--warning {
+      background: var(--warning-container);
+      color: var(--warning);
+    }
+    .status-tag--error {
+      background: var(--background);
+      color: var(--error);
+      border: 1px solid var(--error);
+    }
+
+    .inset {
+      border-left: var(--inset-rule);
+      background: var(--surface-container-low);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-lg);
+    }
+    .inset--plain {
+      background: var(--background);
+      border-top: 1px solid var(--outline-variant);
+      border-right: 1px solid var(--outline-variant);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .inset--positive {
+      border-left: var(--inset-rule-positive);
+      background: var(--background);
+      border-top: 1px solid var(--outline-variant);
+      border-right: 1px solid var(--outline-variant);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .inset--error {
+      border-left: var(--inset-rule-error);
+      background: var(--background);
+      border-top: 1px solid var(--outline-variant);
+      border-right: 1px solid var(--outline-variant);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .inset--warning {
+      border-left: var(--inset-rule-warning);
+      background: var(--surface-container-low);
+    }
+
+    /* Buttons */
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: 0.95rem;
+      line-height: 1.2;
+      background: var(--primary);
+      color: var(--on-primary);
+      border: 0;
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      box-shadow: var(--button-ground);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+    .button:hover { background: var(--tertiary); }
+    .button:active { transform: translateY(2px); box-shadow: none; }
+    .button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .button--secondary {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      box-shadow: var(--button-ground-secondary);
+      border: 1px solid var(--outline-variant);
+    }
+    .button--secondary:hover { background: var(--surface-container); }
+
+    .button--active {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border: 2px solid var(--primary);
+      box-shadow: none;
+    }
+
+    .button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    summary:focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: 0;
+      box-shadow: var(--focus-bar);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    /* Form Controls */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .field-group label {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--on-surface);
+    }
+    .field-hint {
+      font-size: 0.85rem;
+      color: var(--on-surface-variant);
+    }
+    input[type="number"],
+    select {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--on-surface);
+      background: var(--background);
+      border: 2px solid var(--outline);
+      border-radius: var(--rounded);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+    }
+    select { padding-right: var(--space-xl); }
+
+    /* Navigation Index */
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+      border-top: 1px solid var(--outline-variant);
+      border-bottom: 1px solid var(--outline-variant);
+      padding: var(--space-md) 0;
+    }
+    .toc-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+    .toc-item a {
+      display: block;
+      font-size: 0.95rem;
+      line-height: 1.35;
+    }
+    .toc-sub {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--on-surface-variant);
+      font-weight: 400;
+      margin-top: var(--space-xs);
+    }
+
+    /* Progress Dashboard Strip */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .kpi-tile {
+      border-left: var(--inset-rule);
+      background: var(--surface-container-low);
+      padding: var(--space-md);
+    }
+    .kpi-label {
+      display: block;
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+    }
+    .kpi-value {
+      display: block;
+      font-size: var(--headline-size);
+      font-weight: 800;
+      line-height: 1.05;
+      color: var(--on-surface);
+      font-variant-numeric: tabular-nums;
+      margin-bottom: var(--space-xs);
+    }
+    .kpi-desc {
+      display: block;
+      font-size: 0.875rem;
+      color: var(--on-surface);
+    }
+
+    /* Split Asymmetric Layouts */
+    .split-wrap { container-type: inline-size; }
+    .split-2-1 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .split-1-15 {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    @container (max-width: 720px) {
+      .split-2-1, .split-1-15 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* Interactive Org Nodes & Panels */
+    .org-diagram-box {
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      padding: var(--space-md);
+    }
+    .org-tier-label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-xs);
+      margin-top: var(--space-md);
+    }
+    .org-tier-label:first-child { margin-top: 0; }
+    .org-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .org-node {
+      text-align: left;
+      background: var(--background);
+      border: 2px solid var(--outline);
+      padding: var(--space-sm) var(--space-md);
+      cursor: pointer;
+      min-height: 44px;
+      font-family: var(--font-body);
+      color: var(--on-surface);
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .org-node:hover { background: var(--primary-container); }
+    .org-node.is-selected {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .org-node-title {
+      display: block;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+    .org-node-sub {
+      display: block;
+      font-size: 0.8rem;
+      opacity: 0.85;
+    }
+    .org-node:focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: 0;
+      box-shadow: var(--focus-bar);
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: var(--space-lg);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th {
+      text-align: left;
+      font-weight: 700;
+      padding: var(--space-sm) var(--space-md) var(--space-sm) 0;
+      border-bottom: 2px solid var(--on-surface);
+      vertical-align: bottom;
+    }
+    td {
+      padding: var(--space-sm) var(--space-md) var(--space-sm) 0;
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: top;
+    }
+    .num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      padding-right: 0;
+      padding-left: var(--space-md);
+    }
+
+    /* Details / Collapsible */
+    details {
+      border-top: 1px solid var(--outline-variant);
+      border-bottom: 1px solid var(--outline-variant);
+      padding: var(--space-sm) 0;
+      margin-bottom: var(--space-md);
+    }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--tertiary);
+      padding: var(--space-xs) 0;
+      list-style-position: inside;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    summary:hover { text-decoration: underline; }
+    details[open] summary { margin-bottom: var(--space-sm); }
+
+    /* Timeline & Station Stepper */
+    .timeline-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .station-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(175px, 100%), 1fr));
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .station-card {
+      background: var(--background);
+      border: 1px solid var(--outline-variant);
+      border-top: 4px solid var(--primary);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .station-card strong { display: block; margin-bottom: var(--space-xs); }
+
+    /* Case Simulator & Quiz */
+    .case-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .case-btn {
+      text-align: left;
+      width: 100%;
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-left: 4px solid var(--outline-variant);
+      padding: var(--space-sm) var(--space-md);
+      cursor: pointer;
+      min-height: 44px;
+      font-family: var(--font-body);
+      color: var(--on-surface);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .case-btn:hover { background: var(--surface-container); }
+    .case-btn.is-active {
+      background: var(--background);
+      border-color: var(--on-surface);
+      border-left: 5px solid var(--primary);
+    }
+    .case-btn.is-done {
+      border-left-color: var(--positive);
+    }
+    .case-btn:focus-visible {
+      outline: var(--focus-ring);
+      box-shadow: var(--focus-bar);
+    }
+
+    .option-stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .option-btn {
+      text-align: left;
+      width: 100%;
+      background: var(--background);
+      border: 2px solid var(--outline);
+      padding: var(--space-md);
+      min-height: 44px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--on-surface);
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+    .option-btn:hover { background: var(--surface-container-low); }
+    .option-btn.is-correct {
+      border-color: var(--positive);
+      background: var(--positive-container);
+    }
+    .option-btn.is-wrong {
+      border-color: var(--error);
+      background: var(--error-container);
+    }
+    .option-btn:focus-visible {
+      outline: var(--focus-ring);
+      box-shadow: var(--focus-bar);
+    }
+
+    /* Ballot Lab */
+    .ballot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .ballot-card {
+      border: 2px solid var(--outline);
+      background: var(--background);
+      padding: var(--space-md);
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--font-body);
+      color: var(--on-surface);
+    }
+    .ballot-card:hover { background: var(--surface-container-low); }
+    .ballot-card.is-active {
+      border-color: var(--primary);
+      box-shadow: inset 0 0 0 2px var(--primary);
+    }
+    .ballot-card:focus-visible {
+      outline: var(--focus-ring);
+      box-shadow: var(--focus-bar);
+    }
+
+    /* Calculators */
+    .calc-inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+      gap: var(--space-md);
+      align-items: end;
+      margin-bottom: var(--space-md);
+    }
+    .bar-track {
+      height: 22px;
+      background: var(--surface-container);
+      width: 100%;
+      position: relative;
+    }
+    .bar-fill {
+      height: 100%;
+      transition: width var(--dur-short) var(--ease-out);
+    }
+    .bar-fill--1 { background: var(--data-1); }
+    .bar-fill--2 { background: var(--data-2); }
+    .bar-fill--3 { background: var(--data-3); }
+    .bar-fill--4 { background: var(--data-4); }
+
+    .summary-list {
+      border-top: 1px solid var(--outline-variant);
+      margin-bottom: var(--space-md);
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-md);
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .summary-key { font-weight: 700; }
+    .summary-val { font-variant-numeric: tabular-nums; text-align: right; }
+
+    /* Error message text on white */
+    .error-msg {
+      color: var(--error);
+      font-weight: 700;
+      background: var(--background);
+      border-left: var(--inset-rule-error);
+      padding: var(--space-sm) var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    footer {
+      border-top: 1px solid var(--outline);
+      padding-top: var(--space-lg);
+      margin-top: var(--space-xl);
+      color: var(--on-surface-variant);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        grid-template-columns: minmax(0, 1fr);
+        padding: var(--space-md);
+        gap: var(--space-lg);
+      }
+      .split-2-1, .split-1-15 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .btn-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-grid">
+
+    <!-- MASTHEAD -->
+    <header>
+      <div class="index-header">
+        <span>Manual de Formación Electoral · El Salvador</span>
+        <span>Código Electoral · Instructivo JRV · Manual GLD</span>
+      </div>
+      <h1>Simulador y Guía Operativa para la Jornada Electoral</h1>
+      <p class="lede">
+        Recurso interactivo de preparación para integrantes de Juntas Receptoras de Votos (JRV),
+        delegaciones municipales (JEM), Gestores Logísticos Distritales (GLD) y actores de fiscalización
+        en los comicios presidenciales, legislativos y de concejos municipales.
+      </p>
+
+      <!-- PROGRESS SUMMARY & ACTIONS -->
+      <div class="kpi-grid" aria-label="Resumen de avance formativo">
+        <div class="kpi-tile">
+          <span class="kpi-label">Casos del Día &ldquo;D&rdquo; resueltos</span>
+          <span class="kpi-value" id="kpi-cases">0 / 8</span>
+          <span class="kpi-desc">Escenarios prácticos en mesa y escrutinio</span>
+        </div>
+        <div class="kpi-tile">
+          <span class="kpi-label">Evaluación de organismos</span>
+          <span class="kpi-value" id="kpi-quiz">0 / 12</span>
+          <span class="kpi-desc">Aciertos acumulados con retroalimentación</span>
+        </div>
+        <div class="kpi-tile">
+          <span class="kpi-label">Papeletas clasificadas</span>
+          <span class="kpi-value" id="kpi-ballots">0 / 6</span>
+          <span class="kpi-desc">Práctica de voto entero, cruzado, nulo e impugnado</span>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-bottom: var(--space-md);">
+        <button type="button" class="button" onclick="exportProgressReport()">Exportar informe de práctica (.txt)</button>
+        <button type="button" class="button button--secondary" id="btn-reset-progress" onclick="handleResetProgress(this)">Reiniciar avance guardado</button>
+      </div>
+      <div id="global-status" class="muted" aria-live="polite"></div>
+
+      <!-- INDEX NAVIGATION -->
+      <nav aria-label="Índice de módulos" class="toc-grid">
+        <div class="toc-item">
+          <span class="step-badge">01</span>
+          <div>
+            <a href="#mod-jerarquias">Jerarquías, cronograma y entidades</a>
+            <span class="toc-sub">Organismos electorales, GLD, flujo de voto y actores</span>
+          </div>
+        </div>
+        <div class="toc-item">
+          <span class="step-badge">02</span>
+          <div>
+            <a href="#mod-simulador">Simulador de casos del Día &ldquo;D&rdquo;</a>
+            <span class="toc-sub">DUI, discapacidad, papeletas, actas y delitos</span>
+          </div>
+        </div>
+        <div class="toc-item">
+          <span class="step-badge">03</span>
+          <div>
+            <a href="#mod-evaluacion">Cuestionario de evaluación</a>
+            <span class="toc-sub">TSE, JED, JEM, JRV, GLD y escrutinio SEP</span>
+          </div>
+        </div>
+        <div class="toc-item">
+          <span class="step-badge">04</span>
+          <div>
+            <a href="#mod-referencia">Voto exterior y asignación de escaños</a>
+            <span class="toc-sub">Circunscripción 15.ª, Concejos Plurales y Art. 214-A</span>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- MODULE 01: HIERARCHIES, TIMELINE, ENTITIES -->
+    <section id="mod-jerarquias" class="section-head">
+      <div class="section-kicker">
+        <span class="step-badge">01</span>
+        <span>Arquitectura institucional y jornada electoral</span>
+      </div>
+      <h2>El TSE ejerce la máxima autoridad y coordina una cadena temporal y logística escalonada</h2>
+      <p>
+        El sistema electoral salvadoreño distingue entre los cuatro organismos electorales establecidos en el
+        <strong>Artículo 38 del Código Electoral (CE)</strong> y las unidades operativas o de apoyo logístico creadas
+        para la ejecución territorial en los <strong>44 municipios</strong> y <strong>262 distritos</strong>.
+        Seleccione cualquier nodo del esquema para inspeccionar su base legal, plazo de conformación y límites.
+      </p>
+
+      <div class="split-wrap">
+        <div class="split-2-1">
+          <div class="org-diagram-box" role="region" aria-label="Organigrama interactivo electoral">
+            <div class="org-tier-label">Nivel Nacional · Autoridad Permanente y Logística Central</div>
+            <div class="org-row">
+              <button type="button" class="org-node is-selected" data-org="tse" onclick="selectOrgNode('tse', this)">
+                <span class="org-node-title">TSE</span>
+                <span class="org-node-sub">Organismo Colegiado · Art. 38 lit. a</span>
+              </button>
+              <button type="button" class="org-node" data-org="doe" onclick="selectOrgNode('doe', this)">
+                <span class="org-node-title">DOE</span>
+                <span class="org-node-sub">Dirección de Org. Electoral</span>
+              </button>
+              <button type="button" class="org-node" data-org="cot" onclick="selectOrgNode('cot', this)">
+                <span class="org-node-title">COT</span>
+                <span class="org-node-sub">Centro Oper. de Transmisión</span>
+              </button>
+            </div>
+
+            <div class="org-tier-label">Nivel Departamental y Municipal · Organismos Electorales Temporales (OET)</div>
+            <div class="org-row">
+              <button type="button" class="org-node" data-org="jed" onclick="selectOrgNode('jed', this)">
+                <span class="org-node-title">JED</span>
+                <span class="org-node-sub">Departamental · ~120 días antes</span>
+              </button>
+              <button type="button" class="org-node" data-org="jem" onclick="selectOrgNode('jem', this)">
+                <span class="org-node-title">JEM</span>
+                <span class="org-node-sub">Municipal (44) · ~90 días antes</span>
+              </button>
+              <button type="button" class="org-node" data-org="delegado" onclick="selectOrgNode('delegado', this)">
+                <span class="org-node-title">Delegados JEM</span>
+                <span class="org-node-sub">Enlace en centro · Art. 95 CE</span>
+              </button>
+            </div>
+
+            <div class="org-tier-label">Nivel Distrital y de Mesa · Ejecución Operativa y Votación</div>
+            <div class="org-row">
+              <button type="button" class="org-node" data-org="gld" onclick="selectOrgNode('gld', this)">
+                <span class="org-node-title">Equipos Distritales (GLD)</span>
+                <span class="org-node-sub">262 distritos · Máx. 5 por equipo</span>
+              </button>
+              <button type="button" class="org-node" data-org="jrv" onclick="selectOrgNode('jrv', this)">
+                <span class="org-node-title">JRV (Mesa Receptora)</span>
+                <span class="org-node-sub">3 a 5 miembros · Art. 99–108 CE</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="inset" id="org-detail-panel" aria-live="polite">
+            <span class="status-tag">Autoridad máxima</span>
+            <h3 style="margin-top: var(--space-sm);">Tribunal Supremo Electoral (TSE)</h3>
+            <p>
+              Autoridad máxima en materia electoral con sede en la capital y jurisdicción en todo el territorio nacional
+              (<strong>Art. 39 CE</strong>). Goza de plena autonomía jurisdiccional, administrativa y financiera; sus
+              resoluciones son de acatamiento forzoso.
+            </p>
+            <ul>
+              <li><strong>Nombramiento de OET:</strong> Por mayoría calificada nombra y organiza JED, JEM y supervisa la conformación de JRV (Art. 64 lit. a, i CE).</li>
+              <li><strong>Plazo clave:</strong> Determina el número de JRV por municipio a más tardar <strong>120 días</strong> antes de la elección (Art. 107 CE).</li>
+              <li><strong>Escrutinio final:</strong> Resuelve votos impugnados (Art. 215 CE), procesa votos cruzados (Art. 214-A CE) y asigna escaños (Art. 217 CE).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <details>
+        <summary>Ver jerarquía normativa del derecho electoral (Pirámide de Kelsen) y cargos dentro de la JRV</summary>
+        <div class="split-wrap" style="padding-top: var(--space-sm);">
+          <div class="split-2-1">
+            <div>
+              <h4>Orden jerárquico normativo</h4>
+              <ol>
+                <li><strong>Constitución de la República:</strong> Ciudadanía (Arts. 71–77), sufragio y sistema político (Arts. 78–89), PDDH (Art. 94) y régimen electoral (Arts. 208–210).</li>
+                <li><strong>Tratados Internacionales:</strong> Incorporados al ordenamiento conforme al Art. 144 Cn. (ej. Tratado Constitutivo del Parlamento Centroamericano).</li>
+                <li><strong>Código Electoral y Leyes Especiales:</strong> Código Electoral, Ley de Partidos Políticos, Ley Especial para el Sufragio en el Extranjero, Ley Especial para la Reestructuración Municipal (262 a 44 municipios) y Disposiciones para Candidaturas No Partidarias (DPCNP).</li>
+                <li><strong>Reglamentos, Instructivos y Jurisprudencia:</strong> Instructivo de JRV, Manual GLD, Política Antisoborno del TSE y resoluciones de la Sala de lo Constitucional y del TSE.</li>
+              </ol>
+            </div>
+            <div>
+              <h4>Sucesión obligatoria en la JRV (Art. 99–100 CE)</h4>
+              <p>
+                Integrada por hasta <strong>5 propietarios</strong> y sus suplentes; puede instalarse con un mínimo de
+                <strong>3 propietarios</strong> (Presidente, Secretario y Primer Vocal). En ausencia de integrantes, la
+                sucesión es ascendente desde las vocalías hacia la presidencia. Si hay solo 3 integrantes, el Primer
+                Vocal asume también las funciones del Segundo y Tercer Vocal.
+              </p>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- PARTICIPATING ENTITIES -->
+      <h3 style="margin-top: var(--space-xl);">Competencias y límites de las entidades participantes en el centro de votación</h3>
+      <p>
+        La JRV debe colaborar con las instituciones acreditadas sin permitir que ninguna suplante sus atribuciones ni
+        intervenga en el conteo de votos. Filtre por tipo de actor para revisar qué puede hacer y qué le está vedado.
+      </p>
+
+      <div class="btn-row" style="margin-bottom: var(--space-md);" role="group" aria-label="Filtrar entidades participantes">
+        <button type="button" class="button button--secondary button--active" data-ent-filter="all" onclick="filterEntities('all', this)">Todas las entidades</button>
+        <button type="button" class="button button--secondary" data-ent-filter="fiscalizacion" onclick="filterEntities('fiscalizacion', this)">Fiscalización y vigilancia</button>
+        <button type="button" class="button button--secondary" data-ent-filter="observacion" onclick="filterEntities('observacion', this)">Observación y DD. HH.</button>
+        <button type="button" class="button button--secondary" data-ent-filter="seguridad" onclick="filterEntities('seguridad', this)">Justicia y seguridad</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Entidad / Actor</th>
+              <th>Base legal</th>
+              <th>Qué le corresponde hacer</th>
+              <th>Límite o prohibición expresa</th>
+            </tr>
+          </thead>
+          <tbody id="entities-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- DAY D TIMELINE & VOTING FLOW -->
+      <h3 style="margin-top: var(--space-xl);">Cronograma del Día &ldquo;D&rdquo; y estaciones del flujo de votación</h3>
+      <p>
+        La jornada inicia a las <strong>05:00 a.m.</strong> con la instalación de mesas y concluye con el escrutinio en
+        el Sistema de Escrutinio Preliminar (SEP) y la devolución del paquete electoral bajo custodia. Recorra cada fase:
+      </p>
+
+      <div class="timeline-pills" role="group" aria-label="Fases del Día D">
+        <button type="button" class="button button--secondary button--active" data-phase="0" onclick="selectTimelinePhase(0, this)">05:00 a.m. · Instalación</button>
+        <button type="button" class="button button--secondary" data-phase="1" onclick="selectTimelinePhase(1, this)">07:00 a.m. · Flujo del voto</button>
+        <button type="button" class="button button--secondary" data-phase="2" onclick="selectTimelinePhase(2, this)">04:00 p.m. · Kit SEP</button>
+        <button type="button" class="button button--secondary" data-phase="3" onclick="selectTimelinePhase(3, this)">05:00 p.m. · Cierre</button>
+        <button type="button" class="button button--secondary" data-phase="4" onclick="selectTimelinePhase(4, this)">Post 05:00 p.m. · Escrutinio</button>
+      </div>
+
+      <div class="inset inset--plain" id="timeline-panel" aria-live="polite"></div>
+
+      <details>
+        <summary>Ver las 7 actas de la jornada y las 8 etapas de conexión del kit tecnológico SEP</summary>
+        <div class="split-wrap" style="padding-top: var(--space-sm);">
+          <div class="split-1-15">
+            <div>
+              <h4>Documentos y actas clave (7 registros)</h4>
+              <ul>
+                <li>Acta de recepción y devolución del paquete electoral (firma Secretario o, en su ausencia, Presidente).</li>
+                <li>Acta de instalación de la JRV (Art. 192 CE).</li>
+                <li>Acta de entrega y devolución del kit tecnológico (un solo formato de ida y vuelta).</li>
+                <li>Tres Actas de Cierre y Escrutinio Preliminar: Presidencial, Asamblea Legislativa y Concejos Municipales.</li>
+                <li>Recibo oficial de entrega y comprobante de participación (Art. 113 CE, permiso laboral con goce de sueldo).</li>
+              </ul>
+              <p class="muted">
+                Si ocurre un error de llenado en papelería física no existe reposición: se documenta con precisión en hoja
+                en blanco o apartado de incidencias.
+              </p>
+            </div>
+            <div>
+              <h4>Instalación del kit SEP (8 etapas) y niveles de soporte SLA</h4>
+              <ol>
+                <li>Preparar conexión eléctrica segura.</li>
+                <li>Instalar y encender la computadora portátil (verificar puesta a cero transparente).</li>
+                <li>Realizar el conteo previo de firmas y huellas en el padrón (Art. 202 CE).</li>
+                <li>Conectar el mouse.</li>
+                <li>Conectar el escáner (digitalización del acta firmada).</li>
+                <li>Conectar la impresora (impresión del acta definitiva y copias por color, Art. 209 CE).</li>
+                <li>Conectar el proyector (proyección pública para JRV y vigilantes durante el ingreso al SEP).</li>
+                <li>Conectar el módem para transmisión encriptada.</li>
+              </ol>
+              <p class="muted">
+                <strong>Escalamiento técnico (4 niveles SLA):</strong> 1. Auxiliar o jefe de soporte en centro → 2. Sede COT →
+                3. Proveedor / especialista → 4. Alta dirección (prioridades Crítica, Alta y Media).
+              </p>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- MODULE 02: INTERACTIVE CASE SIMULATOR & BALLOT LAB -->
+    <section id="mod-simulador" class="section-head">
+      <div class="section-kicker">
+        <span class="step-badge">02</span>
+        <span>Simulador de decisiones en mesa</span>
+      </div>
+      <h2>Resuelva situaciones críticas del Día &ldquo;D&rdquo; conforme al Código Electoral</h2>
+      <p>
+        En cada escenario, asuma la conducción legal de la mesa. Analice los hechos, escoja la actuación procedente y
+        verifique el sustento jurídico inmediato. El simulador guarda automáticamente sus casos resueltos.
+      </p>
+
+      <div class="btn-row" style="margin-bottom: var(--space-md);" role="group" aria-label="Filtrar casos por categoría">
+        <button type="button" class="button button--secondary button--active" data-case-cat="all" onclick="filterCases('all', this)">Todos (8)</button>
+        <button type="button" class="button button--secondary" data-case-cat="identidad" onclick="filterCases('identidad', this)">DUI e Identidad</button>
+        <button type="button" class="button button--secondary" data-case-cat="inclusion" onclick="filterCases('inclusion', this)">Discapacidad</button>
+        <button type="button" class="button button--secondary" data-case-cat="escrutinio" onclick="filterCases('escrutinio', this)">Votos y Actas</button>
+        <button type="button" class="button button--secondary" data-case-cat="orden" onclick="filterCases('orden', this)">Mesa, GLD y Delitos</button>
+      </div>
+
+      <div class="split-wrap">
+        <div class="split-1-15">
+          <div class="case-list" id="case-selector-list" role="listbox" aria-label="Lista de casos simulados"></div>
+
+          <div class="inset inset--plain" id="case-stage" aria-live="polite">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE BALLOT CLASSIFICATION LAB -->
+      <h3 style="margin-top: var(--space-xl);">Laboratorio visual de clasificación de votos (Asamblea Legislativa)</h3>
+      <p>
+        Durante el escrutinio, el Presidente extrae cada papeleta, la muestra a los integrantes y vigilantes y canta a
+        viva voz el bloque al que pertenece (<strong>Arts. 200 lit. b, 203, 205–207 CE</strong>). Seleccione las 6
+        papeletas de muestra y determine su clasificación correcta.
+      </p>
+
+      <div class="ballot-grid" id="ballot-lab-cards"></div>
+      <div class="inset" id="ballot-lab-panel" aria-live="polite"></div>
+    </section>
+
+    <!-- MODULE 03: INTERACTIVE EVALUATION QUIZ -->
+    <section id="mod-evaluacion" class="section-head">
+      <div class="section-kicker">
+        <span class="step-badge">03</span>
+        <span>Evaluación de conocimientos</span>
+      </div>
+      <h2>Compruebe su dominio sobre el TSE, los OET (JED, JEM, JRV) y los Equipos Distritales (GLD)</h2>
+      <p>
+        Seleccione un bloque temático o responda el examen completo de 12 reactivos. Cada respuesta muestra la
+        retroalimentación jurídica inmediata basada en la normativa electoral y los manuales operativos.
+      </p>
+
+      <div class="btn-row" style="margin-bottom: var(--space-md);" role="group" aria-label="Filtrar cuestionario">
+        <button type="button" class="button button--secondary button--active" data-quiz-cat="all" onclick="filterQuiz('all', this)">Examen completo (12)</button>
+        <button type="button" class="button button--secondary" data-quiz-cat="tse" onclick="filterQuiz('tse', this)">TSE y Marco Legal (3)</button>
+        <button type="button" class="button button--secondary" data-quiz-cat="oet" onclick="filterQuiz('oet', this)">JED, JEM y JRV (3)</button>
+        <button type="button" class="button button--secondary" data-quiz-cat="gld" onclick="filterQuiz('gld', this)">Equipos Distritales GLD (3)</button>
+        <button type="button" class="button button--secondary" data-quiz-cat="escrutinio" onclick="filterQuiz('escrutinio', this)">Escrutinio y SEP (3)</button>
+      </div>
+
+      <div id="quiz-container"></div>
+    </section>
+
+    <!-- MODULE 04: QUICK REFERENCE (ABROAD VOTING & SEAT ALLOCATION) -->
+    <section id="mod-referencia" class="section-head">
+      <div class="section-kicker">
+        <span class="step-badge">04</span>
+        <span>Módulos de referencia rápida y cálculo electoral</span>
+      </div>
+      <h2>Sufragio en el extranjero y fórmulas de asignación de escaños</h2>
+      <p>
+        Consulte los parámetros operativos de la circunscripción especial en el exterior y utilice los simuladores de
+        cálculo para observar cómo se integran los <strong>Concejos Municipales Plurales</strong> y cómo se fracciona el
+        <strong>voto cruzado (Art. 214-A CE)</strong> rumbo a la asignación legislativa.
+      </p>
+
+      <!-- 4.1 ABROAD VOTING -->
+      <h3>4.1 Sufragio en el Extranjero (Circunscripción Especial 15.ª)</h3>
+      <div class="kpi-grid">
+        <div class="kpi-tile">
+          <span class="kpi-label">Cobertura internacional</span>
+          <span class="kpi-value">92 centros</span>
+          <span class="kpi-desc">Distribuidos en <strong>29 países</strong> alrededor del mundo</span>
+        </div>
+        <div class="kpi-tile">
+          <span class="kpi-label">Diputaciones de Asamblea</span>
+          <span class="kpi-value">6 de 60</span>
+          <span class="kpi-desc">54 representan al territorio nacional y 6 al voto exterior</span>
+        </div>
+        <div class="kpi-tile">
+          <span class="kpi-label">Ventana y JEM especial</span>
+          <span class="kpi-value">1 mes</span>
+          <span class="kpi-desc">JEM específica regulada conforme al Decreto Legislativo 541</span>
+        </div>
+      </div>
+
+      <div class="inset">
+        <h4>Recorrido técnico del escrutinio en el exterior (4 fases)</h4>
+        <ol style="margin-bottom: var(--space-sm);">
+          <li><strong>Cierre de las modalidades:</strong> Finalización del período de votación (remota por internet y presencial en centros habilitados).</li>
+          <li><strong>Procesamiento de datos:</strong> Clasificación en votos válidos, nulos, abstenciones e impugnados.</li>
+          <li><strong>Asignación territorial y departamental:</strong> Los sufragios emitidos con domicilio en el extranjero o sin identificador territorial local se canalizan conforme a la circunscripción asignada (Art. 10 / Ley Especial para el Ejercicio del Sufragio en el Extranjero).</li>
+          <li><strong>Consolidación del escrutinio final:</strong> Integración oficial ante la JEM designada y el TSE.</li>
+        </ol>
+        <p class="muted" style="margin-bottom: 0;">
+          <strong>Identificación del elector en el exterior:</strong> Cuando no existe registro domiciliario único local, la
+          acreditación se respalda mediante DUI, pasaporte vigente, actualización en línea o documentación consular
+          habilitada según la ley especial.
+        </p>
+      </div>
+
+      <!-- 4.2 MUNICIPAL COUNCILS SIMULATOR -->
+      <h3 style="margin-top: var(--space-xl);">4.2 Simulador de Concejo Municipal Plural (44 Municipios)</h3>
+      <p>
+        Tras la Ley Especial para la Reestructuración Municipal, el país pasó de <strong>262 a 44 municipios</strong>
+        organizados por distritos. En un <strong>Concejo Plural</strong>, el partido o coalición con mayoría simple
+        obtiene la Alcaldía, la Sindicatura y la mayoría del concejo (<strong>50% + 1</strong> de regidurías, con doble
+        voto del Alcalde ante empates en sesión), mientras las regidurías restantes se distribuyen proporcionalmente
+        entre los partidos minoritarios según sus votos válidos (por ejemplo, en Ahuachapán: 1 Alcalde, 1 Síndico,
+        4 Regidores Propietarios y 4 Suplentes).
+      </p>
+
+      <div class="inset inset--plain">
+        <div class="calc-inputs">
+          <div class="field-group">
+            <label for="mun-size">Regidores propietarios del concejo</label>
+            <select id="mun-size" onchange="updateMunicipalCalc()">
+              <option value="4" selected>4 regidores (ej. Ahuachapán)</option>
+              <option value="6">6 regidores</option>
+              <option value="8">8 regidores</option>
+              <option value="10">10 regidores</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="mun-v1">Votos Partido A</label>
+            <input type="number" id="mun-v1" min="0" max="500000" value="18400" oninput="updateMunicipalCalc()">
+          </div>
+          <div class="field-group">
+            <label for="mun-v2">Votos Partido B</label>
+            <input type="number" id="mun-v2" min="0" max="500000" value="12100" oninput="updateMunicipalCalc()">
+          </div>
+          <div class="field-group">
+            <label for="mun-v3">Votos Partido C</label>
+            <input type="number" id="mun-v3" min="0" max="500000" value="6800" oninput="updateMunicipalCalc()">
+          </div>
+          <div class="field-group">
+            <label for="mun-v4">Votos Coalición D</label>
+            <input type="number" id="mun-v4" min="0" max="500000" value="2700" oninput="updateMunicipalCalc()">
+          </div>
+        </div>
+        <div class="btn-row" style="margin-bottom: var(--space-md);">
+          <button type="button" class="button button--secondary" onclick="loadMunicipalPreset('ahuachapan')">Cargar ejemplo Ahuachapán (4 regidores)</button>
+          <button type="button" class="button button--secondary" onclick="loadMunicipalPreset('renido')">Cargar escenario reñido (6 regidores)</button>
+        </div>
+
+        <div id="mun-output" aria-live="polite"></div>
+      </div>
+
+      <!-- 4.3 CROSS-VOTING & LEGISLATIVE SEAT ALLOCATION -->
+      <h3 style="margin-top: var(--space-xl);">4.3 Calculadora de Voto Cruzado (Art. 214-A CE) y Escaños Legislativos (Art. 217 CE)</h3>
+      <p>
+        En la elección de diputados a la Asamblea Legislativa (60 escaños en total), el <strong>Art. 214-A CE</strong>
+        establece el método exacto para convertir papeletas con <strong>voto cruzado</strong> en fracciones de voto para
+        cada partido, coalición o candidatura no partidaria:
+      </p>
+      <div class="inset">
+        <p style="margin-bottom: var(--space-xs);">
+          <strong>Regla matemática del Art. 214-A CE:</strong> Cada papeleta con voto cruzado equivale a
+          <strong>1 voto unitario</strong> dividido entre el total de marcas válidas estampadas en esa papeleta
+          (siempre que no supere el máximo de diputaciones de la circunscripción). Ese valor unitario se multiplica por
+          las marcas obtenidas por cada partido en dicha papeleta y se suma a sus <strong>votos válidos enteros</strong>.
+          Finalmente, las marcas de preferencia definen el orden en que ingresan las candidaturas dentro de los escaños
+          asignados a cada lista (Art. 217 CE).
+        </p>
+      </div>
+
+      <div class="inset inset--plain">
+        <div class="calc-inputs">
+          <div class="field-group">
+            <label for="leg-seats">Escaños del departamento (M)</label>
+            <select id="leg-seats" onchange="updateLegislativeCalc()">
+              <option value="3">3 diputaciones (límite 3 marcas)</option>
+              <option value="4" selected>4 diputaciones (límite 4 marcas)</option>
+              <option value="5">5 diputaciones (límite 5 marcas)</option>
+              <option value="16">16 diputaciones (límite 16 marcas)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="leg-ent-a">Votos enteros Partido A</label>
+            <input type="number" id="leg-ent-a" min="0" max="500000" value="420" oninput="updateLegislativeCalc()">
+          </div>
+          <div class="field-group">
+            <label for="leg-ent-b">Votos enteros Partido B</label>
+            <input type="number" id="leg-ent-b" min="0" max="500000" value="310" oninput="updateLegislativeCalc()">
+          </div>
+          <div class="field-group">
+            <label for="leg-ent-c">Votos enteros Partido C</label>
+            <input type="number" id="leg-ent-c" min="0" max="500000" value="180" oninput="updateLegislativeCalc()">
+          </div>
+        </div>
+
+        <h4>Muestra de papeletas con voto cruzado en la JRV (ej. bloque de papeletas cruzadas)</h4>
+        <p class="field-hint" style="margin-bottom: var(--space-sm);">
+          Ajuste cuántas marcas recibió cada partido por papeleta cruzada y cuántas papeletas idénticas hay de ese patrón.
+          Si la suma de marcas en una papeleta supera <strong>M</strong>, el sistema la invalida conforme al Art. 214-A lit. b CE.
+        </p>
+
+        <div class="calc-inputs">
+          <div class="field-group">
+            <label for="cruz-qty">Cantidad de papeletas con este patrón</label>
+            <input type="number" id="cruz-qty" min="0" max="500" value="40" oninput="updateLegislativeCalc()">
+          </div>
+          <div class="field-group">
+            <label for="cruz-ma">Marcas Partido A (por papeleta)</label>
+            <input type="number" id="cruz-ma" min="0" max="16" value="2" oninput="updateLegislativeCalc()">
+          </div>
+          <div class="field-group">
+            <label for="cruz-mb">Marcas Partido B (por papeleta)</label>
+            <input type="number" id="cruz-mb" min="0" max="16" value="1" oninput="updateLegislativeCalc()">
+          </div>
+          <div class="field-group">
+            <label for="cruz-mc">Marcas Partido C (por papeleta)</label>
+            <input type="number" id="cruz-mc" min="0" max="16" value="1" oninput="updateLegislativeCalc()">
+          </div>
+        </div>
+
+        <div id="leg-error" class="error-msg" style="display: none;"></div>
+        <div id="leg-output" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        <strong>Fuentes integradas:</strong> Código Electoral de la República de El Salvador (Arts. 5–6, 32, 38–39, 63–64,
+        95–108, 113, 121–131, 185–217, 232, 242, 252, 278); Constitución de la República (Arts. 71–89, 94, 144, 208–210);
+        Instructivo de Junta Receptora de Votos (Elecciones 2027); Manual de Funcionamiento para Equipos Distritales de Apoyo
+        y Gestores Logísticos Distritales (GLD); Ley Especial para el Ejercicio del Sufragio en el Extranjero; y Ley Especial
+        para la Reestructuración Municipal.
+      </p>
+    </footer>
+
+  </div>
+
+  <api-shim></api-shim>
+
+  <script>
+    /* ======================== DATA MODELS ======================== */
+    const ORG_DATA = {
+      tse: {
+        tag: `Autoridad máxima · Permanente`,
+        title: `Tribunal Supremo Electoral (TSE)`,
+        summary: `Es la autoridad máxima en materia electoral con sede en la capital y jurisdicción en todo el territorio nacional (Art. 39 CE). Cuenta con autonomía jurisdiccional, administrativa y financiera.`,
+        bullets: [
+          `Por mayoría calificada nombra y organiza a las JED, JEM y supervisa la conformación de las JRV (Art. 64 lit. a, i CE).`,
+          `Determina el número de JRV por municipio a más tardar 120 días antes de la elección (Art. 107 CE).`,
+          `Autoriza misiones de observación electoral (Art. 63 lit. f CE) y ejecuta el escrutinio final, resolviendo votos impugnados (Art. 215 CE).`
+        ]
+      },
+      doe: {
+        tag: `Dependencia técnica fija`,
+        title: `Dirección de Organización Electoral (DOE)`,
+        summary: `Unidad logística permanente del TSE (con personal fijo y temporal) encargada de organizar, preparar, coordinar y dar seguimiento a la infraestructura de cada evento electoral.`,
+        bullets: [
+          `Verifica bodegas, anaqueles, mesas, papelería, paquetes electorales y condiciones de los centros de votación.`,
+          `Avisa sobre faltantes a las JEM y coordina los despliegues antes, durante y después de la jornada.`,
+          `Dirige, coordina y supervisa funcionalmente a los Equipos Distritales de Apoyo (GLD).`
+        ]
+      },
+      cot: {
+        tag: `Logística tecnológica · Día D`,
+        title: `Centro de Operaciones de Transmisión (COT)`,
+        summary: `Estructura de soporte técnico y logístico encargada de respaldar a las JRV después de las 5:00 p.m. en la transmisión digital de resultados y recolección del equipo tecnológico.`,
+        bullets: [
+          `Instala un Centro de Soporte de Transmisión en cada centro de votación (jefe y auxiliar).`,
+          `Opera bajo 4 niveles de SLA (1. Auxiliar/jefe de soporte, 2. Sede COT, 3. Proveedor/especialista, 4. Alta dirección) con prioridades Crítica, Alta y Media.`,
+          `Coordina la logística vinculada a las actas digitalizadas, el escáner y el resguardo informático.`
+        ]
+      },
+      jed: {
+        tag: `OET Departamental · ~120 días`,
+        title: `Junta Electoral Departamental (JED)`,
+        summary: `Organismo Electoral Temporal (Art. 38 lit. b CE) que representa al TSE a nivel departamental, con toma de posesión alrededor de 120 días antes del evento.`,
+        bullets: [
+          `Organiza, supervisa y gestiona el proceso electoral dentro de su departamento.`,
+          `Efectúa la inscripción de candidaturas a Concejos Municipales.`,
+          `Supervisa directamente a las JEM y JRV de su jurisdicción y recibe copia del acta general municipal preliminar.`
+        ]
+      },
+      jem: {
+        tag: `OET Municipal · ~90 días`,
+        title: `Junta Electoral Municipal (JEM)`,
+        summary: `Organismo Electoral Temporal (Art. 38 lit. c, Art. 98 CE) que coordina, supervisa y fiscaliza el proceso electoral en cada uno de los 44 municipios, tomando posesión cerca de 90 días antes.`,
+        bullets: [
+          `Supervisa la integración legal de las JRV de su municipio (Art. 98 CE) y designa sustitutos si faltan miembros mínimos (Art. 109 CE).`,
+          `Entrega los paquetes electorales (vía apoyos distritales y delegados) y resuelve incidentes durante la votación.`,
+          `Recibe las actas de las JRV para elaborar el acta general municipal preliminar y remitir el original al TSE.`
+        ]
+      },
+      delegado: {
+        tag: `Enlace en centro de votación`,
+        title: `Delegado o Delegada JEM (Art. 95 CE)`,
+        summary: `Representante nombrado y acreditado por la JEM a propuesta de los partidos políticos que la integran, para operar exclusivamente en el centro de votación asignado.`,
+        bullets: [
+          `Acreditado para verificar el ingreso ordenado a las 5:00 a.m. de JRV, jefes de centro, supervisores, vigilantes, JVE y observadores.`,
+          `Entrega el paquete electoral a cada JRV, provee depósitos de reemplazo ante daños (Art. 199 CE) y orienta sobre el ordenamiento.`,
+          `Actúa como enlace directo entre las JRV del centro y la JEM ante incidencias o denegaciones de voto.`
+        ]
+      },
+      gld: {
+        tag: `Soporte logístico distrital · Máx. 5`,
+        title: `Equipos Distritales de Apoyo y GLD`,
+        summary: `Estructuras de soporte técnico-operativo en los 262 distritos del país (hasta 5 integrantes por distrito), nombradas por el TSE y dependientes de la DOE para asistir a las 44 JEM.`,
+        bullets: [
+          `Nota normativa: no figuran como organismo electoral en el Código Electoral; su actuación se rige por el Manual GLD del TSE.`,
+          `Apoyan a la DCEC en la logística de centros de capacitación, reciben paquetes de la JEM en centros de resguardo y los entregan a delegados JEM.`,
+          `Prohibición expresa: sus funciones son exclusivamente logísticas; no pueden interferir en las JRV ni en el conteo de votos.`
+        ]
+      },
+      jrv: {
+        tag: `OET de Mesa · Art. 99–108 CE`,
+        title: `Junta Receptora de Votos (JRV)`,
+        summary: `Máxima autoridad en su mesa receptora durante la jornada electoral. Se integra con un máximo de 5 propietarios (Presidente, Secretario, Vocales 1, 2 y 3) y un mínimo de 3 propietarios.`,
+        bullets: [
+          `Recibe bajo su responsabilidad el paquete electoral (Art. 108 y 189 CE) y verifica identidad y padrón de votantes.`,
+          `Administra la emisión secreta del voto (07:00 a.m. a 05:00 p.m.) y atiende casos especiales con trato preferente.`,
+          `Realiza el escrutinio preliminar voto por voto en orden estricto (Presidencial, Asamblea, Concejos), digita en el SEP y firma las actas.`
+        ]
+      }
+    };
+
+    const ENTITIES_DATA = [
+      {
+        cat: `fiscalizacion`,
+        name: `Vigilantes de Partidos Políticos y Coaliciones`,
+        legal: `Arts. 105, 121–125, 129 CE`,
+        can: `Fiscalizar la recepción de materiales, instalación de JRV, votación y escrutinio; presentar sugerencias por escrito y firmar actas. Supervisores votan en JRV 1 (<20 mesas) o JRV 2 (>20 mesas) reteniendo su DUI hasta el cierre.`,
+        limit: `No pueden suplir ni obstruir decisiones de la JRV. Si interfieren gravemente de palabra o de obra, la JRV los priva de funciones y asume su suplente sin mayor trámite (Art. 129 CE).`
+      },
+      {
+        cat: `fiscalizacion`,
+        name: `Junta de Vigilancia Electoral (JVE)`,
+        legal: `Art. 131 CE`,
+        can: `Organismo permanente integrado por partidos inscritos que fiscaliza actividades del TSE, de los OET y del RNPN (DUI, padrones, tintas, escrutinios preliminares y finales).`,
+        limit: `Ejerce vigilancia político-electoral institucional, pero no puede intervenir en deliberaciones ni tomar decisiones dentro de la JRV.`
+      },
+      {
+        cat: `observacion`,
+        name: `Misiones de Observación Electoral`,
+        legal: `Art. 63 lit. f CE`,
+        can: `Misiones nacionales o internacionales acreditadas por el Organismo Colegiado del TSE; acceden libremente a centros de votación, escrutinio y transmisión para observar y documentar.`,
+        limit: `No pueden inducir el voto, ofender a autoridades o contendientes ni vulnerar el secreto del sufragio. Ningún OET puede admitir observadores no autorizados.`
+      },
+      {
+        cat: `observacion`,
+        name: `PDDH y PGR`,
+        legal: `Art. 94 Cn. y normativa institucional`,
+        can: `La PDDH observa y verifica el respeto a los derechos políticos y humanos de la ciudadanía; la PGR vela por la defensa de derechos y facilita el acceso a la justicia.`,
+        limit: `No ejercen autoridad administrativa electoral ni sustituyen a la JRV o JEM en la conducción de la mesa.`
+      },
+      {
+        cat: `seguridad`,
+        name: `Fiscal Electoral (FGR)`,
+        legal: `Arts. 278, 225, 196, 252 CE`,
+        can: `Al menos uno por centro de votación; vigila que el evento se desarrolle conforme a ley y recibe avisos de DUI falsos/alterados, sustituciones irregulares o ilícitos electorales.`,
+        limit: `No puede intervenir para reasignar roles de la JRV una vez asignados ni suplantar las funciones propias de la mesa.`
+      },
+      {
+        cat: `seguridad`,
+        name: `Policía Nacional Civil (PNC) y FAES`,
+        legal: `Art. 63 lit. m, Art. 252 CE y Ley de Reestructuración Municipal`,
+        can: `Resguardan las cajas electorales desde un día antes, garantizan seguridad y orden público y proceden a captura y remisión ante delitos en flagrancia. Pueden votar donde están destacados con DUI y carné institucional.`,
+        limit: `Los agentes de PNC votan en cualquier lugar por presidente y diputados, pero no por alcaldes fuera de su domicilio. No interfieren en el conteo ni dentro del anaquel.`
+      }
+    ];
+
+    const TIMELINE_DATA = [
+      {
+        badge: `05:00 a.m. — Instalación y paquete`,
+        title: `Ingreso, integración de la JRV y verificación del paquete electoral`,
+        body: `Los integrantes propietarios y suplentes ingresan a las 5:00 a.m. presentando DUI original y credencial TSE al delegado JEM. Con al menos 3 miembros se integra la JRV (sucesión ascendente) y se recibe el paquete electoral (Art. 189 CE). El Secretario firma el acta de recepción (o el Presidente en su ausencia), cuenta, firma y sella las papeletas y se levanta el Acta de Instalación (Art. 192 CE). El Vocal 3 arma los depósitos vacíos y se exhibe el padrón de búsqueda (Art. 193 CE).`,
+        stations: [
+          { role: `1. Integración mínima`, text: `Mínimo 3 propietarios (Presidente, Secretario, Vocal 1). Si no se alcanza, se avisa a JEM/delegado (Art. 109 CE).` },
+          { role: `2. Votación anticipada`, text: `Votan delegados de instituciones públicas destacadas en el centro presentando DUI y carné institucional.` },
+          { role: `3. Resguardo de DUI`, text: `Se guarda el DUI de integrantes de mesa en la bolsa respectiva sobre la mesa del Presidente.` }
+        ]
+      },
+      {
+        badge: `07:00 a.m. a 05:00 p.m. — Emisión del sufragio`,
+        title: `Cadena colaborativa de 6 estaciones en la JRV (votación continua)`,
+        body: `La votación se desarrolla de manera continua de 07:00 a.m. a 05:00 p.m. (Art. 198 CE). Está estrictamente prohibido el uso de celulares, cámaras o dispositivos de captura durante la emisión del voto. Se garantiza trato preferencial a personas con discapacidad, adultos mayores, mujeres en evidente embarazo y personas con bebés en brazos.`,
+        stations: [
+          { role: `Estación 1 · Presidente`, text: `Solicita DUI vigente, verifica padrón de búsqueda, revisa ausencia de tinta, sella nombre y controla denegaciones.` },
+          { role: `Estación 2 · Secretario`, text: `Firma, sella y muestra las papeletas; retira y embolsa esquinas desprendibles; entrega papeletas y crayón.` },
+          { role: `Estación 3 · Vocal 3 (Anaquel)`, text: `Regula flujo al anaquel, protege el secreto del voto, ofrece trato preferente y explica cómo doblar y depositar las 3 papeletas.` },
+          { role: `Estación 4 · Vocal 1 (Padrón)`, text: `Ubica al votante en el padrón de firma, verifica devolución del crayón y toma firma o huella usando la regla provista.` },
+          { role: `Estación 5 · Vocal 2 (Tinta)`, text: `Aplica tinta indeleble, registra asistencia, sexo y discapacidad en la hoja de control y pide al Vocal 1 devolver el DUI.` }
+        ]
+      },
+      {
+        badge: `04:00 p.m. — Preparación tecnológica`,
+        title: `Recepción del kit tecnológico de transmisión (SEP)`,
+        body: `A partir de las 4:00 p.m., la JRV recibe el equipo tecnológico del Sistema de Escrutinio Preliminar (computadora, escáner, impresora, proyector, módem y regleta) que operará el Secretario al finalizar la votación, manteniendo orden en el área de mesa.`,
+        stations: [
+          { role: `Verificación física`, text: `Confirmar integridad del maletín y acta única de entrega/devolución del equipo técnico.` },
+          { role: `Centro de soporte`, text: `Identificar al auxiliar y jefe de soporte de transmisión del centro ante cualquier falla de conectividad.` }
+        ]
+      },
+      {
+        badge: `05:00 p.m. — Cierre de votación`,
+        title: `Anuncio de cierre y resguardo de la última persona en fila`,
+        body: `A las 5:00 p.m. en punto, el Presidente anuncia el cierre de la votación y ordena al Tercer Vocal colocarse al final de la fila para garantizar que vote únicamente hasta la última persona que se encontraba formada a esa hora (Art. 195 inc. 3 CE). Luego se retiran materiales no utilizados y se despeja la mesa para el escrutinio.`,
+        stations: [
+          { role: `Conteo de firmas`, text: `Se cuentan las firmas y huellas asentadas en el padrón de firmas (Art. 202 CE) antes de abrir urnas.` },
+          { role: `Papeletas sobrantes`, text: `Vocal 1 cuenta las papeletas sobrantes; Vocal 2 las rasga e inutiliza en la bolsa correspondiente (Art. 200 lit. a CE).` }
+        ]
+      },
+      {
+        badge: `Post 05:00 p.m. — Escrutinio preliminar y devolución`,
+        title: `Orden obligatorio de conteo, SEP y entrega bajo custodia`,
+        body: `El escrutinio debe seguir el orden estricto de los Arts. 201 y 232 CE (su incumplimiento acarrea multa): 1.º Presidente y Vicepresidente, 2.º Diputaciones a la Asamblea Legislativa, 3.º Concejos Municipales. En cada elección el Secretario digita en el SEP bajo proyección pública para JRV y vigilantes.`,
+        stations: [
+          { role: `Paso 1 · Bloques físicos`, text: `Presidente extrae una a una, canta en voz alta y separa en bloques sobre la mesa (válidos, nulos, impugnados, abstenciones).` },
+          { role: `Paso 2 · Cuadratura SEP`, text: `Secretario ingresa totales enteros, preferencias y marcas cruzadas; el sistema valida la cuadratura contra el total en urna.` },
+          { role: `Paso 3–5 · Actas y envío`, text: `Impresión del acta definitiva, firma de JRV y vigilantes, escaneo, transmisión encriptada y copias por color (Art. 209 CE).` },
+          { role: `Paso 6 · Devolución`, text: `Embalaje foliado y retorno del paquete y kit tecnológico a JEM/GLD/DOE bajo custodia de PNC y FAES (Art. 210 CE).` }
+        ]
+      }
+    ];
+
+    const CASES_DATA = [
+      {
+        id: `c1`,
+        cat: `identidad`,
+        catLabel: `DUI e Identidad`,
+        title: `Caso 1 · DUI con fotografía superpuesta y plástico despegado`,
+        context: `En la JRV 1003, un ciudadano entrega su DUI al Presidente para solicitar sus papeletas. Al realizar la inspección física obligatoria, el Presidente observa que la fotografía está superpuesta, el laminado está despegado y dos dígitos presentan alteración evidente.`,
+        question: `¿Cuál es la actuación legal obligatoria de la JRV?`,
+        options: [
+          {
+            text: `Permitir el voto si el ciudadano aparece en el padrón de búsqueda y su apariencia coincide con la foto.`,
+            correct: false,
+            feedback: `Incorrecto. El Art. 32 CE prohíbe votar con un DUI alterado o destruido en sus datos esenciales; que el nombre figure en el padrón no convalida un documento alterado.`
+          },
+          {
+            text: `Denegar la entrega de papeletas de forma respetuosa pero firme, decomisar el DUI alterado e informar de inmediato a la JEM y a la FGR, registrándolo en el padrón.`,
+            correct: true,
+            feedback: `Correcto. Conforme al Art. 32 y al Art. 196 inc. 4 literales b y c del CE, ante un DUI ostensiblemente falso o manifiestamente alterado, la JRV deniega el voto, decomisa el documento, informa a la JEM y a la Fiscalía General de la República y anota el hecho en la sección "Ciudadanos que no pudieron votar".`
+          },
+          {
+            text: `Devolverle el documento al ciudadano sin tomar nota y pedirle que regrese más tarde con una fotocopia legible.`,
+            correct: false,
+            feedback: `Incorrecto. Las fotocopias o copias escaneadas nunca habilitan para votar, y ante alteración manifiesta no debe devolverse el documento sin decomiso ni aviso a JEM y FGR.`
+          }
+        ]
+      },
+      {
+        id: `c2`,
+        cat: `identidad`,
+        catLabel: `DUI e Identidad`,
+        title: `Caso 2 · Cambio de apellido en el DUI y ciudadano con tinta en el dedo`,
+        context: `Se presentan dos votantes consecutivos: (A) una ciudadana cuyo DUI vigente muestra su apellido de casada mientras el padrón conserva su apellido anterior, sin duda sobre su identidad; (B) un ciudadano que aparece en el padrón pero tiene el dedo índice manchado con tinta indeleble del evento electoral.`,
+        question: `¿Cómo debe resolver la JRV ambos casos?`,
+        options: [
+          {
+            text: `Permitir votar a la ciudadana (A) y denegar el voto al ciudadano (B), informando a la JEM y a la FGR sobre la marca de tinta.`,
+            correct: true,
+            feedback: `Correcto. El Instructivo JRV establece expresamente que el cambio de apellido por estado familiar o diferencias menores de apariencia NO son causa de denegación si no hay duda de identidad. En cambio, tener cualquier dedo u otra parte del cuerpo manchada con la tinta del proceso SÍ obliga a denegar el voto e informar a la JEM y FGR (Art. 196 lit. d CE).`
+          },
+          {
+            text: `Denegar el voto a ambos porque ninguno cumple la coincidencia exacta requerida en mesa.`,
+            correct: false,
+            feedback: `Incorrecto. Denegar el voto a la ciudadana (A) por cambio de apellido por estado familiar vulnera su derecho al sufragio cuando no existe duda sobre su identidad.`
+          },
+          {
+            text: `Permitir votar a ambos si el ciudadano (B) firma una declaración jurada de que la tinta es accidental.`,
+            correct: false,
+            feedback: `Incorrecto. La JRV no tiene facultad para aceptar declaraciones juradas frente a una causal expresa de denegación del Art. 196 lit. d CE.`
+          }
+        ]
+      },
+      {
+        id: `c3`,
+        cat: `inclusion`,
+        catLabel: `Inclusión y Discapacidad`,
+        title: `Caso 3 · Persona con discapacidad visual que asiste sin acompañante`,
+        context: `Un ciudadano ciego acude solo a votar a la JRV, recibe trato preferencial del Tercer Vocal en la fila y solicita orientación antes de recibir las papeletas.`,
+        question: `¿Qué opciones debe ofrecer la JRV para garantizar su voto secreto y accesible?`,
+        options: [
+          {
+            text: `Exigirle que llame por teléfono a un familiar para que acuda al centro, pues sin acompañante no puede marcar la papeleta.`,
+            correct: false,
+            feedback: `Incorrecto. El ciudadano con discapacidad visual que asiste solo no puede ser privado ni retrasado en su derecho al voto; además el uso de celulares en votación está prohibido.`
+          },
+          {
+            text: `Ofrecerle votar con sistema Braille (sobres tiflológicos preparados por el Secretario mostrando coincidencia de aberturas), o bien votación asistida manifestando su preferencia ante un vigilante de su partido o ante el Presidente frente a toda la JRV.`,
+            correct: true,
+            feedback: `Correcto. El procedimiento específico (Caso 6 del Instructivo JRV) contempla estas tres vías: (1) sobre tiflológico/Braille preparado por el Secretario frente a la mesa y vigilantes, (2) marca realizada por el vigilante del partido que indique si está presente, o (3) marca efectuada por el Presidente frente al resto de la JRV.`
+          },
+          {
+            text: `Que el Tercer Vocal lo acompañe al anaquel y marque en voz baja las casillas que considere convenientes.`,
+            correct: false,
+            feedback: `Incorrecto. La votación asistida sin sobre Braille requiere manifestar la preferencia ante la JRV para que la realice el vigilante elegido o el Presidente frente a toda la mesa, garantizando transparencia.`
+          }
+        ]
+      },
+      {
+        id: `c4`,
+        cat: `escrutinio`,
+        catLabel: `Votos y Actas`,
+        title: `Caso 4 · Marca ilegible fuera del cuadro y papeleta sin firma del Secretario`,
+        context: `Al escrutar Asamblea Legislativa surgen dos papeletas: (1) una con un trazo ambiguo que se sale parcialmente del cuadro entre dos candidatos sin quedar clara la intención; (2) otra con marca clara en una bandera, pero al reverso carece de la firma y sello del Secretario.`,
+        question: `¿Qué tratamiento corresponde a cada papeleta según la normativa?`,
+        options: [
+          {
+            text: `Anular ambas de inmediato porque cualquier defecto formal o trazo fuera de línea invalida el voto.`,
+            correct: false,
+            feedback: `Incorrecto. La omisión de firma o sello del Secretario no anula automáticamente la papeleta si se comprueba su autenticidad; y la duda legítima sobre intención no resuelta como nulo/abstención se clasifica como impugnada (Art. 206 CE).`
+          },
+          {
+            text: `Clasificar la papeleta (1) como voto impugnado para que lo resuelva el TSE en escrutinio final (si la mesa no logra certeza de validez/nulidad), y someter la papeleta (2) a validación excepcional comprobando elección, número de JRV, sello del Tribunal, Escudo y correlativo.`,
+            correct: true,
+            feedback: `Correcto. Según el Art. 206 y Art. 215 CE, el voto impugnado es aquel cuya validez o invalidez se reclama sin haberse declarado nulo o abstención al no determinarse con claridad la intención (lo resuelve el TSE en escrutinio final; en mesa, si no hay acuerdo de validez en discusión, se aparta para impugnación o nulidad según la causal). Para la papeleta sin firma/sello del Secretario, el Instructivo establece la validación excepcional: si cumple los 4 criterios de autenticidad, se toma como voto válido.`
+          },
+          {
+            text: `Pedir al Secretario que firme y selle la papeleta (2) durante el escrutinio y repartir la papeleta (1) entre los dos partidos cercanos.`,
+            correct: false,
+            feedback: `Incorrecto. Nunca se altera físicamente una papeleta ya depositada en la urna ni se divide un voto ambiguo.`
+          }
+        ]
+      },
+      {
+        id: `c5`,
+        cat: `escrutinio`,
+        catLabel: `Votos y Actas`,
+        title: `Caso 5 · Discrepancia entre registros auxiliares de conteo y el Acta Preliminar`,
+        context: `Al concluir el conteo preliminar, los registros auxiliares no cuadran con los datos proyectados para el acta. El Presidente propone ingresar los datos del borrador sin verificar para terminar rápido y el Primer Vocal sugiere avalar las cifras. El Secretario se niega a digitar datos inconsistentes y un vigilante exige verificar físicamente, mientras otro vigilante alega que un reconteo comprometería la transparencia.`,
+        question: `¿Cuál es la actuación jurídica procedente para la JRV?`,
+        options: [
+          {
+            text: `Acatar al Presidente por mayoría simple de la mesa y firmar el acta con las cifras del borrador para evitar retrasos al COT.`,
+            correct: false,
+            feedback: `Incorrecto. Ningún integrante puede imponer o avalar cifras inconsistentes sin verificación; consignar datos erróneos a sabiendas compromete la pureza del sufragio y acarrea responsabilidad legal.`
+          },
+          {
+            text: `Detener la emisión definitiva del acta, realizar una verificación física y reconteo transparente de los bloques en presencia de toda la JRV y vigilantes, y dejar constancia escrita de la incidencia sin modificar cifras arbitrariamente.`,
+            correct: true,
+            feedback: `Correcto. La postura del Secretario y del vigilante que exige verificación es la conforme a derecho: no es ilegal realizar un reconteo cuando existe discrepancia entre el registro auxiliar y el acta. Debe detenerse la emisión del acta, verificarse físicamente cada bloque a la vista de todos y documentar lo ocurrido en el apartado de incidencias.`
+          },
+          {
+            text: `Ajustar manualmente la cifra de abstenciones en el SEP hasta que el sistema cuadre con el padrón de firmas.`,
+            correct: false,
+            feedback: `Incorrecto. Ajustar artificialmente abstenciones o nulos para forzar la cuadratura constituye una alteración arbitraria de resultados.`
+          }
+        ]
+      },
+      {
+        id: `c6`,
+        cat: `orden`,
+        catLabel: `Mesa, GLD y Delitos`,
+        title: `Caso 6 · Conformación con 3 miembros a las 5:00 a.m. y llegada tardía de un propietario`,
+        context: `A las 5:00 a.m. solo comparecen dos propietarios y un suplente, por lo que instalan la JRV con 3 personas. A las 9:30 a.m. llega el propietario ausente y exige ocupar de inmediato el puesto que ejerce el suplente sin que este se retire.`,
+        question: `¿Cómo procede la JRV respecto a la integración y la incorporación tardía?`,
+        options: [
+          {
+            text: `El suplente debe ceder su asiento automáticamente sin dejar constancia porque el propietario tiene prioridad permanente.`,
+            correct: false,
+            feedback: `Incorrecto. El suplente no puede dejar funciones mientras el propietario no se incorpore formalmente ni puede operarse un relevo informal sin registro en acta.`
+          },
+          {
+            text: `La instalación con 3 miembros es legal (Art. 99–100 CE); para incorporar al propietario debe retirarse el suplente o regularizarse dejando constancia en acta del estado previo y posterior (papeletas entregadas, no usadas y votantes) y comunicándolo a JEM, JED, TSE, Fiscal Electoral y JVE.`,
+            correct: true,
+            feedback: `Correcto. La JRV puede instalarse con un mínimo de 3 miembros en sucesión ascendente (el Primer Vocal asume 2.ª y 3.ª vocalía). Toda sustitución o incorporación posterior exige que no coexistan propietario y suplente en el mismo cargo, levantar constancia detallada en acta (papeletas y votantes hasta ese instante) y notificar a JEM, JED, TSE, Fiscal Electoral y JVE.`
+          },
+          {
+            text: `Suspender la votación durante 30 minutos para reorganizar toda la mesa y volver a firmar el acta de instalación.`,
+            correct: false,
+            feedback: `Incorrecto. Iniciada la votación, no puede interrumpirse ni cerrarse antes de la hora legal (Art. 198 CE).`
+          }
+        ]
+      },
+      {
+        id: `c7`,
+        cat: `orden`,
+        catLabel: `Mesa, GLD y Delitos`,
+        title: `Caso 7 · Vigilante que interfiere gravemente y ciudadano en flagrancia de delito electoral`,
+        context: `Un vigilante de partido insulta reiteradamente al Secretario e intenta arrebatar una papeleta del escritorio. Minutos después, otro individuo en el centro de votación es sorprendido rompiendo papeletas y coaccionando votantes en la fila.`,
+        question: `¿Qué medidas inmediatas debe activar la JRV?`,
+        options: [
+          {
+            text: `Privar de funciones al vigilante disruptivo y sustituirlo por su suplente sin mayor trámite haciéndolo constar en acta (Art. 129 CE), y denunciar en el acto el delito en flagrancia ante la PNC y el Fiscal Electoral para captura y remisión (Art. 252 CE).`,
+            correct: true,
+            feedback: `Correcto. El Art. 129 CE faculta a la JRV para privar de funciones y sustituir de inmediato por su suplente a cualquier vigilante que interfiera gravemente de palabra o de obra, dejando constancia en acta y avisando al TSE y Fiscal Electoral. Ante flagrancia de delito electoral, el Art. 252 CE ordena denuncia inmediata ante PNC y autoridad competente para su captura y remisión.`
+          },
+          {
+            text: `Solicitar al Gestor Logístico Distrital (GLD) que expulse físicamente al vigilante y retenga al ciudadano hasta el cierre.`,
+            correct: false,
+            feedback: `Incorrecto. El GLD tiene funciones exclusivamente logísticas y no tiene autoridad policial ni facultades de orden público.`
+          },
+          {
+            text: `Llamar a los observadores internacionales para que redacten una resolución de sanción contra el partido del vigilante.`,
+            correct: false,
+            feedback: `Incorrecto. Las misiones de observación únicamente documentan el proceso; no tienen potestad sancionadora ni ejecutiva en mesa.`
+          }
+        ]
+      },
+      {
+        id: `c8`,
+        cat: `orden`,
+        catLabel: `Mesa, GLD y Delitos`,
+        title: `Caso 8 · Ofrecimiento de ayuda del GLD en el conteo y alteración del orden de escrutinio`,
+        context: `A las 5:20 p.m., para ahorrar tiempo, el Presidente propone escrutar primero Concejos Municipales porque hay menos marcas. Además, un Gestor Logístico Distrital (GLD) que trajo bolsas de resguardo se ofrece a ayudar clasificando papeletas en la mesa.`,
+        question: `¿Son admisibles alguna de estas dos propuestas?`,
+        options: [
+          {
+            text: `Solo la ayuda del GLD es válida porque es personal nombrado por el TSE, aunque debe respetarse el orden presidencial primero.`,
+            correct: false,
+            feedback: `Incorrecto. El Manual de Funcionamiento de Equipos Distritales y GLD (Sección 7.2) prohíbe expresamente a los GLD interferir en el trabajo de las JRV o en el conteo de votos.`
+          },
+          {
+            text: `Ninguna es admisible: el orden obligatorio es Presidencial, Asamblea Legislativa y Concejos Municipales (sancionado con multa en Arts. 201 y 232 CE), y el GLD tiene prohibido intervenir en el conteo de votos.`,
+            correct: true,
+            feedback: `Correcto. El Art. 201 relacionado con el Art. 232 CE fija un orden estricto sancionado con multa si se altera: 1.º Presidente y Vicepresidente, 2.º Diputados a la Asamblea Legislativa y 3.º Concejos Municipales. Asimismo, la JRV es la única autorizada para realizar el escrutinio (los GLD cumplen labor estrictamente logística).`
+          },
+          {
+            text: `Ambas son admisibles si los vigilantes presentes firman un acuerdo unánime de mesa.`,
+            correct: false,
+            feedback: `Incorrecto. Ni la unanimidad de vigilantes permite derogar el orden legal de escrutinio ni habilitar a personal logístico para escrutar votos.`
+          }
+        ]
+      }
+    ];
+
+    const BALLOT_LAB_DATA = [
+      {
+        id: `b1`,
+        label: `Papeleta A`,
+        desc: `Marca única sobre la bandera del Partido Azul. Sin marcas en rostros.`,
+        svg: `bandera`,
+        answer: `entero_bandera`,
+        explain: `<strong>Voto válido entero por bandera:</strong> La marca recae únicamente sobre la bandera de un partido o coalición. Suma 1 voto entero al partido en el SEP y no asigna marcas de preferencia individual.`
+      },
+      {
+        id: `b2`,
+        label: `Papeleta B`,
+        desc: `Marca en la bandera del Partido Verde y marcas sobre los rostros 1 y 3 del mismo Partido Verde.`,
+        svg: `preferente`,
+        answer: `entero_preferente`,
+        explain: `<strong>Voto válido entero con preferencia (Art. 205 CE):</strong> Suma 1 voto entero al partido y, además, registra 1 marca de preferencia para el candidato 1 y 1 para el candidato 3 dentro de esa misma lista.`
+      },
+      {
+        id: `b3`,
+        label: `Papeleta C`,
+        desc: `Marca sobre rostro 2 del Partido Azul y marca sobre rostro 1 del Partido Naranja (en distrito de 4 escaños).`,
+        svg: `cruzado`,
+        answer: `cruzado`,
+        explain: `<strong>Voto válido cruzado (Art. 205 lit. f y Art. 214-A CE):</strong> Al marcar candidaturas de distintos contendientes sin superar el límite de 4 diputaciones, es voto cruzado. En el SEP se digita marca por marca; el TSE fraccionará 1/2 para Azul y 1/2 para Naranja.`
+      },
+      {
+        id: `b4`,
+        label: `Papeleta D`,
+        desc: `Marcas claras sobre dos banderas distintas (Partido Azul y Partido Verde).`,
+        svg: `nulo`,
+        answer: `nulo`,
+        explain: `<strong>Voto nulo (Art. 207 lit. a CE):</strong> Aparece claramente marcada la intención de voto en dos o más banderas de partidos o coaliciones contendientes (también sería nulo por tachadura o rasgadura destructiva).`
+      },
+      {
+        id: `b5`,
+        label: `Papeleta E`,
+        desc: `Trazo borroso y letras escritas que salen del cuadro, con reclamo entre miembros sobre su validez.`,
+        svg: `impugnado`,
+        answer: `impugnado`,
+        explain: `<strong>Voto impugnado (Art. 206 y 215 CE):</strong> Cuando se reclama su validez o invalidez y no se declara nulo ni abstención por no poder determinarse con claridad la intención, se aparta como impugnado para resolución final del TSE.`
+      },
+      {
+        id: `b6`,
+        label: `Papeleta F`,
+        desc: `Papeleta completamente en blanco, sin ningún tipo de marca ni rasgadura.`,
+        svg: `abstencion`,
+        answer: `abstencion`,
+        explain: `<strong>Abstención:</strong> Papeleta depositada en la urna sin ninguna marca de intención de voto ni alteración destructiva. Se contabiliza en el bloque de abstenciones para la cuadratura.`
+      }
+    ];
+
+    const QUIZ_DATA = [
+      {
+        id: `q1`, cat: `tse`, catLabel: `TSE y Marco Legal`,
+        prompt: `¿Con qué mayoría adopta el Organismo Colegiado del TSE el acuerdo para nombrar y organizar a los miembros de las JED y JEM?`,
+        options: [
+          `Por mayoría simple de los magistrados presentes en la sesión.`,
+          `Por acuerdo de mayoría calificada de los Magistrados o Magistradas (Art. 64 lit. a, i CE).`,
+          `Por designación directa de la Dirección de Organización Electoral (DOE).`
+        ],
+        correctIdx: 1,
+        rationale: `El Art. 64 lit. a, numeral i del Código Electoral establece expresamente que el nombramiento y organización de JED, JEM y supervisión de JRV corresponde al TSE por acuerdo de mayoría calificada.`
+      },
+      {
+        id: `q2`, cat: `tse`, catLabel: `TSE y Marco Legal`,
+        prompt: `¿Con cuántos días de anticipación, a más tardar, determina el TSE el número de JRV que funcionarán en cada municipio?`,
+        options: [
+          `90 días antes de cada elección.`,
+          `120 días antes de cada elección (Art. 107 CE).`,
+          `165 días antes de cada elección.`
+        ],
+        correctIdx: 1,
+        rationale: `Según el Art. 107 CE, el Tribunal determina la cantidad de JRV por municipio a más tardar 120 días antes de la elección (mientras los 165 días corresponden a la remisión de padrones totales según el marco del registro electoral).`
+      },
+      {
+        id: `q3`, cat: `tse`, catLabel: `TSE y Marco Legal`,
+        prompt: `Si una persona designada en JRV se niega a desempeñar el cargo o lo abandona sin justificación, ¿qué sanción contempla el Art. 242 CE y en qué plazo puede presentar pruebas si sí tiene justificación?`,
+        options: [
+          `Multa de $25.00 a $114.28 USD; con justificación, dispone de 3 días hábiles siguientes al día de la elección (Art. 242 inc. 5 y 6 CE).`,
+          `Suspensión inmediata del DUI por un año; con justificación, 15 días calendario.`,
+          `Únicamente amonestación verbal de la JEM sin multa económica.`
+        ],
+        correctIdx: 0,
+        rationale: `El Art. 242 CE sanciona la negativa o abandono injustificado con multa de $25.00 a $114.28 USD y otorga 3 días hábiles posteriores a la elección para presentar justificación documentada ante el TSE.`
+      },
+      {
+        id: `q4`, cat: `oet`, catLabel: `JED, JEM y JRV`,
+        prompt: `¿Qué organismo electoral temporal tiene entre sus competencias específicas la inscripción de candidaturas a Concejos Municipales y la supervisión de las JEM de su territorio?`,
+        options: [
+          `La Junta Electoral Municipal (JEM).`,
+          `La Junta Electoral Departamental (JED).`,
+          `La Junta de Vigilancia Electoral (JVE).`
+        ],
+        correctIdx: 1,
+        rationale: `La JED representa al TSE a nivel departamental, supervisa a las JEM y JRV del departamento y efectúa la inscripción de candidaturas a Concejos Municipales.`
+      },
+      {
+        id: `q5`, cat: `oet`, catLabel: `JED, JEM y JRV`,
+        prompt: `Según el Instructivo de JRV y el Art. 189 CE, ¿quién debe firmar el acta de recepción del paquete electoral si el Secretario aún no ha comparecido al momento de la entrega?`,
+        options: [
+          `El Tercer Vocal o el primer vigilante partidario que haya llegado.`,
+          `El Delegado de la JEM en lugar de la mesa.`,
+          `El Presidente de la JRV verifica el contenido y firma de recibido.`
+        ],
+        correctIdx: 2,
+        rationale: `La regla ordinaria asigna la firma al Secretario; en ausencia de este, el Presidente verifica el contenido y suscribe el acta de recepción del paquete electoral.`
+      },
+      {
+        id: `q6`, cat: `oet`, catLabel: `JED, JEM y JRV`,
+        prompt: `En un centro de votación que cuenta con 24 JRV instaladas, ¿en qué mesa votan los supervisores y vigilantes acreditados conforme al Art. 125 CE?`,
+        options: [
+          `En la Segunda JRV del centro de votación (por superar el límite de 20 JRV), reteniéndoseles su DUI hasta el cierre.`,
+          `En la Primera JRV independientemente de la cantidad de mesas.`,
+          `En cualquier mesa que tenga menor fila antes de las 4:00 p.m.`
+        ],
+        correctIdx: 0,
+        rationale: `El Art. 125 CE dispone que cuando el centro tiene menos de 20 JRV votan en la Primera JRV; cuando tiene más de 20 JRV votan en la Segunda JRV, reteniéndose su DUI hasta el cierre de la votación.`
+      },
+      {
+        id: `q7`, cat: `gld`, catLabel: `Equipos Distritales GLD`,
+        prompt: `¿Cuál es la naturaleza normativa y la dependencia funcional de los Equipos Distritales de Apoyo y Gestores Logísticos Distritales (GLD)?`,
+        options: [
+          `Son un OET autónomo creado por el Art. 38 del Código Electoral bajo mando de la JED.`,
+          `No están tipificados como organismo electoral en el Código Electoral; dependen funcionalmente de la DOE para dar soporte operativo en los 262 distritos.`,
+          `Dependen directamente del Fiscal Electoral para custodiar las urnas.`
+        ],
+        correctIdx: 1,
+        rationale: `El Manual GLD (Sección 1.2 y 2.1) establece que estos equipos representan un soporte técnico-operativo nombrado por el TSE que depende directamente de la DOE para asistir a las 44 JEM en los 262 distritos.`
+      },
+      {
+        id: `q8`, cat: `gld`, catLabel: `Equipos Distritales GLD`,
+        prompt: `¿Cuál es el número máximo de integrantes por Equipo Distrital y cuál es su papel respecto a la capacitación y al paquete electoral?`,
+        options: [
+          `Máximo 5 integrantes por distrito; apoyan a la DCEC en centros/materiales de capacitación, reciben paquetes de la JEM en resguardo y los entregan a delegados JEM.`,
+          `Mínimo 3 y máximo 10 integrantes; sustituyen al Secretario de JRV en el llenado del SEP.`,
+          `2 integrantes por municipio; solo transportan mobiliario escolar.`
+        ],
+        correctIdx: 0,
+        rationale: `Cada Equipo Distrital está integrado por un máximo de 5 personas con DUI vigente. Apoyan a la DCEC y gestionan la cadena de resguardo y entrega del paquete electoral entre la JEM y los delegados JEM de los centros de votación.`
+      },
+      {
+        id: `q9`, cat: `gld`, catLabel: `Equipos Distritales GLD`,
+        prompt: `¿Cómo ejercen su propio derecho al voto los Gestores Logísticos Distritales el día de la elección?`,
+        options: [
+          `Votan en cualquier mesa del distrito donde estén trabajando exhibiendo su credencial.`,
+          `Ejercen su voto en el lugar que les corresponde según el padrón electoral, organizando turnos breves mediante el coordinador del equipo.`,
+          `Quedan legalmente impedidos de votar mientras duren sus funciones.`
+        ],
+        correctIdx: 1,
+        rationale: `La Sección 8 del Manual GLD dispone que el GLD vota en el centro y mesa que le corresponde en el padrón electoral, mediante turnos breves coordinados para no descuidar las responsabilidades logísticas.`
+      },
+      {
+        id: `q10`, cat: `escrutinio`, catLabel: `Escrutinio y SEP`,
+        prompt: `¿Cuál es el orden obligatorio de conteo en el escrutinio preliminar fijado por el Art. 201 CE (cuyo incumplimiento genera multa según el Art. 232 CE)?`,
+        options: [
+          `1.º Concejos Municipales, 2.º Asamblea Legislativa, 3.º Presidencial.`,
+          `1.º Presidente y Vicepresidente, 2.º Diputaciones a la Asamblea Legislativa, 3.º Concejos Municipales.`,
+          `Cualquier orden siempre que el Secretario realice primero la puesta a cero.`
+        ],
+        correctIdx: 1,
+        rationale: `El orden secuencial es obligatorio: inicia con Presidente y Vicepresidente, continúa con Diputaciones a la Asamblea Legislativa y finaliza con Concejos Municipales.`
+      },
+      {
+        id: `q11`, cat: `escrutinio`, catLabel: `Escrutinio y SEP`,
+        prompt: `Al producirse una falla crítica en el sistema de transmisión SEP durante el escrutinio en el centro de votación, ¿cuál es la secuencia correcta de los 4 niveles SLA?`,
+        options: [
+          `1. Auxiliar/jefe de soporte en centro → 2. Sede COT → 3. Proveedor/especialista → 4. Alta dirección.`,
+          `1. Delegado JEM → 2. PNC → 3. JVE → 4. Corte Suprema.`,
+          `1. Vigilante de mesa → 2. Gestor Logístico Distrital → 3. TSE.`
+        ],
+        correctIdx: 0,
+        rationale: `La estructura de soporte técnico del COT contempla 4 niveles de escalamiento SLA: 1. Auxiliar o jefe de soporte en centro, 2. Sede COT, 3. Proveedor o especialista y 4. Alta dirección.`
+      },
+      {
+        id: `q12`, cat: `escrutinio`, catLabel: `Escrutinio y SEP`,
+        prompt: `Si una persona con amputación de ambos miembros superiores vota y necesita ayuda para depositar sus papeletas en las urnas, ¿quién realiza esa acción si no asiste con acompañante?`,
+        options: [
+          `El delegado de la JEM fuera del recinto.`,
+          `El Tercer Vocal de la JRV (y en ausencia de este, el Primer Vocal).`,
+          `El agente de la PNC asignado a la puerta del salón.`
+        ],
+        correctIdx: 1,
+        rationale: `De acuerdo con el Instructivo de JRV (Caso 7 / momento de depósito), cuando la discapacidad lo requiera —como amputación bilateral superior o paraplejía—, la introducción guiada o asistida la efectúa el Tercer Vocal (o el Primer Vocal si la mesa opera con 3 miembros).`
+      }
+    ];
+
+    /* ======================== APP STATE ======================== */
+    const appState = {
+      casesSolved: {},
+      quizAnswers: {},
+      ballotsSolved: {},
+      selectedOrg: `tse`,
+      timelinePhase: 0,
+      selectedCaseId: `c1`,
+      selectedBallotId: `b1`,
+      caseFilter: `all`,
+      quizFilter: `all`,
+      entityFilter: `all`
+    };
+
+    /* ======================== PERSISTENCE ======================== */
+    async function loadPersistedState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            if (saved.casesSolved) appState.casesSolved = saved.casesSolved;
+            if (saved.quizAnswers) appState.quizAnswers = saved.quizAnswers;
+            if (saved.ballotsSolved) appState.ballotsSolved = saved.ballotsSolved;
+            if (saved.selectedOrg && ORG_DATA[saved.selectedOrg]) appState.selectedOrg = saved.selectedOrg;
+            if (typeof saved.timelinePhase === `number`) appState.timelinePhase = saved.timelinePhase;
+            if (saved.selectedCaseId) appState.selectedCaseId = saved.selectedCaseId;
+            if (saved.selectedBallotId) appState.selectedBallotId = saved.selectedBallotId;
+          }
+        }
+      } catch (err) {
+        /* Fallback silencioso en modo vista local */
+      }
+    }
+
+    async function persistState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+          await window.notebookAppApi.setAppState({
+            casesSolved: appState.casesSolved,
+            quizAnswers: appState.quizAnswers,
+            ballotsSolved: appState.ballotsSolved,
+            selectedOrg: appState.selectedOrg,
+            timelinePhase: appState.timelinePhase,
+            selectedCaseId: appState.selectedCaseId,
+            selectedBallotId: appState.selectedBallotId
+          });
+        }
+      } catch (err) {
+        /* Ignorar error si no hay shim activo */
+      }
+    }
+
+    /* ======================== PROGRESS & REPORT ======================== */
+    function updateKPIs() {
+      const casesCount = Object.values(appState.casesSolved).filter(Boolean).length;
+      const quizCount = Object.values(appState.quizAnswers).filter(function(a) { return a && a.correct; }).length;
+      const ballotsCount = Object.values(appState.ballotsSolved).filter(Boolean).length;
+
+      const elCases = document.getElementById(`kpi-cases`);
+      const elQuiz = document.getElementById(`kpi-quiz`);
+      const elBallots = document.getElementById(`kpi-ballots`);
+
+      if (elCases) elCases.textContent = `${casesCount} / ${CASES_DATA.length}`;
+      if (elQuiz) elQuiz.textContent = `${quizCount} / ${QUIZ_DATA.length}`;
+      if (elBallots) elBallots.textContent = `${ballotsCount} / ${BALLOT_LAB_DATA.length}`;
+    }
+
+    function handleResetProgress(btn) {
+      if (!btn) return;
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Confirmar reinicio de avance`;
+        const msg = document.getElementById(`global-status`);
+        if (msg) msg.textContent = `Presione nuevamente "Confirmar reinicio de avance" para borrar casos y evaluaciones guardadas.`;
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.textContent = `Reiniciar avance guardado`;
+      appState.casesSolved = {};
+      appState.quizAnswers = {};
+      appState.ballotsSolved = {};
+      renderCaseList();
+      renderActiveCase();
+      renderBallotLab();
+      renderQuiz();
+      updateKPIs();
+      persistState();
+      const msg = document.getElementById(`global-status`);
+      if (msg) msg.textContent = `Avance formativo reiniciado.`;
+    }
+
+    function exportProgressReport() {
+      const casesCount = Object.values(appState.casesSolved).filter(Boolean).length;
+      const quizCorrect = Object.values(appState.quizAnswers).filter(function(a) { return a && a.correct; }).length;
+      const quizAnswered = Object.keys(appState.quizAnswers).length;
+      const ballotsCount = Object.values(appState.ballotsSolved).filter(Boolean).length;
+
+      const lines = [
+        `INFORME DE PRÁCTICA ELECTORAL — EL SALVADOR`,
+        `=============================================`,
+        `Casos del Día "D" resueltos: ${casesCount} de ${CASES_DATA.length}`,
+        `Reactivos de evaluación respondidos: ${quizAnswered} de ${QUIZ_DATA.length}`,
+        `Aciertos en evaluación: ${quizCorrect} de ${QUIZ_DATA.length}`,
+        `Papeletas clasificadas en laboratorio: ${ballotsCount} de ${BALLOT_LAB_DATA.length}`,
+        ``,
+        `Detalle de casos superados:`
+      ];
+
+      CASES_DATA.forEach(function(c) {
+        const estado = appState.casesSolved[c.id] ? `RESUELTO` : `PENDIENTE`;
+        lines.push(`- [${estado}] ${c.title}`);
+      });
+
+      const content = lines.join(`\n`);
+      const msg = document.getElementById(`global-status`);
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: content,
+          contentType: `text/plain`,
+          encoding: `UTF-8`,
+          filename: `informe-formacion-electoral.txt`
+        });
+        if (msg) msg.textContent = `Informe descargado como informe-formacion-electoral.txt.`;
+      } else {
+        if (msg) msg.textContent = `Resumen generado: ${casesCount}/${CASES_DATA.length} casos, ${quizCorrect}/${QUIZ_DATA.length} aciertos y ${ballotsCount}/${BALLOT_LAB_DATA.length} papeletas.`;
+      }
+    }
+
+    /* ======================== MODULE 01: ORG, ENTITIES, TIMELINE ======================== */
+    function selectOrgNode(orgKey, btnEl) {
+      const data = ORG_DATA[orgKey];
+      if (!data) return;
+      appState.selectedOrg = orgKey;
+
+      const allNodes = document.querySelectorAll(`.org-node`);
+      allNodes.forEach(function(n) { n.classList.remove(`is-selected`); });
+      if (btnEl) {
+        btnEl.classList.add(`is-selected`);
+      } else {
+        const target = document.querySelector(`.org-node[data-org="${orgKey}"]`);
+        if (target) target.classList.add(`is-selected`);
+      }
+
+      const panel = document.getElementById(`org-detail-panel`);
+      if (panel) {
+        const bulletsHtml = data.bullets.map(function(b) { return `<li>${b}</li>`; }).join(``);
+        panel.innerHTML = `
+          <span class="status-tag">${data.tag}</span>
+          <h3 style="margin-top: var(--space-sm);">${data.title}</h3>
+          <p>${data.summary}</p>
+          <ul>${bulletsHtml}</ul>
+        `;
+      }
+      persistState();
+    }
+
+    function filterEntities(cat, btnEl) {
+      appState.entityFilter = cat;
+      document.querySelectorAll(`[data-ent-filter]`).forEach(function(b) { b.classList.remove(`button--active`); });
+      if (btnEl) btnEl.classList.add(`button--active`);
+
+      const tbody = document.getElementById(`entities-tbody`);
+      if (!tbody) return;
+      const rows = ENTITIES_DATA.filter(function(item) {
+        return cat === `all` || item.cat === cat;
+      });
+      tbody.innerHTML = rows.map(function(r) {
+        return `
+          <tr>
+            <td><strong>${r.name}</strong></td>
+            <td><span class="tabular">${r.legal}</span></td>
+            <td>${r.can}</td>
+            <td>${r.limit}</td>
+          </tr>
+        `;
+      }).join(``);
+    }
+
+    function selectTimelinePhase(idx, btnEl) {
+      const phase = TIMELINE_DATA[idx];
+      if (!phase) return;
+      appState.timelinePhase = idx;
+
+      document.querySelectorAll(`[data-phase]`).forEach(function(b) { b.classList.remove(`button--active`); });
+      if (btnEl) {
+        btnEl.classList.add(`button--active`);
+      } else {
+        const target = document.querySelector(`[data-phase="${idx}"]`);
+        if (target) target.classList.add(`button--active`);
+      }
+
+      const panel = document.getElementById(`timeline-panel`);
+      if (panel) {
+        const stationsHtml = phase.stations.map(function(st) {
+          return `
+            <div class="station-card">
+              <strong>${st.role}</strong>
+              <span class="muted">${st.text}</span>
+            </div>
+          `;
+        }).join(``);
+
+        panel.innerHTML = `
+          <span class="status-tag">${phase.badge}</span>
+          <h4 style="margin-top: var(--space-sm); font-size: var(--subhead-size);">${phase.title}</h4>
+          <p>${phase.body}</p>
+          <div class="station-grid">${stationsHtml}</div>
+        `;
+      }
+      persistState();
+    }
+
+    /* ======================== MODULE 02: CASE SIMULATOR ======================== */
+    function filterCases(cat, btnEl) {
+      appState.caseFilter = cat;
+      document.querySelectorAll(`[data-case-cat]`).forEach(function(b) { b.classList.remove(`button--active`); });
+      if (btnEl) btnEl.classList.add(`button--active`);
+
+      const visible = CASES_DATA.filter(function(c) { return cat === `all` || c.cat === cat; });
+      if (visible.length > 0 && !visible.some(function(c) { return c.id === appState.selectedCaseId; })) {
+        appState.selectedCaseId = visible[0].id;
+      }
+      renderCaseList();
+      renderActiveCase();
+    }
+
+    function renderCaseList() {
+      const listEl = document.getElementById(`case-selector-list`);
+      if (!listEl) return;
+      const visible = CASES_DATA.filter(function(c) {
+        return appState.caseFilter === `all` || c.cat === appState.caseFilter;
+      });
+      listEl.innerHTML = visible.map(function(c) {
+        const activeCls = c.id === appState.selectedCaseId ? ` is-active` : ``;
+        const doneCls = appState.casesSolved[c.id] ? ` is-done` : ``;
+        const badge = appState.casesSolved[c.id]
+          ? `<span class="status-tag status-tag--positive">Resuelto</span>`
+          : `<span class="status-tag">${c.catLabel}</span>`;
+        return `
+          <button type="button" class="case-btn${activeCls}${doneCls}" onclick="selectCase('${c.id}')">
+            <div>${badge}</div>
+            <strong>${c.title}</strong>
+          </button>
+        `;
+      }).join(``);
+    }
+
+    function selectCase(caseId) {
+      appState.selectedCaseId = caseId;
+      renderCaseList();
+      renderActiveCase();
+      persistState();
+    }
+
+    function renderActiveCase() {
+      const stage = document.getElementById(`case-stage`);
+      if (!stage) return;
+      const item = CASES_DATA.find(function(c) { return c.id === appState.selectedCaseId; }) || CASES_DATA[0];
+      const solved = Boolean(appState.casesSolved[item.id]);
+
+      const optionsHtml = item.options.map(function(opt, idx) {
+        return `
+          <button type="button" class="option-btn" id="case-opt-${idx}" onclick="answerCase('${item.id}', ${idx})">
+            <span class="step-badge">${idx + 1}</span>
+            <span>${opt.text}</span>
+          </button>
+        `;
+      }).join(``);
+
+      const solvedBanner = solved
+        ? `<div class="inset inset--positive" style="margin-top: var(--space-md); margin-bottom: 0;"><strong>Caso ya acreditado:</strong> Puede volver a seleccionar cualquier opción para repasar el fundamento legal.</div>`
+        : ``;
+
+      stage.innerHTML = `
+        <span class="status-tag">${item.catLabel}</span>
+        <h3 style="margin-top: var(--space-sm);">${item.title}</h3>
+        <p>${item.context}</p>
+        <p><strong>${item.question}</strong></p>
+        <div class="option-stack">${optionsHtml}</div>
+        <div id="case-feedback" style="margin-top: var(--space-md);">${solvedBanner}</div>
+      `;
+    }
+
+    function answerCase(caseId, optIdx) {
+      const item = CASES_DATA.find(function(c) { return c.id === caseId; });
+      if (!item) return;
+      const opt = item.options[optIdx];
+      if (!opt) return;
+
+      item.options.forEach(function(_, i) {
+        const b = document.getElementById(`case-opt-${i}`);
+        if (b) {
+          b.classList.remove(`is-correct`, `is-wrong`);
+        }
+      });
+
+      const chosenBtn = document.getElementById(`case-opt-${optIdx}`);
+      if (chosenBtn) {
+        chosenBtn.classList.add(opt.correct ? `is-correct` : `is-wrong`);
+      }
+
+      if (opt.correct) {
+        appState.casesSolved[caseId] = true;
+        renderCaseList();
+        updateKPIs();
+        persistState();
+      }
+
+      const fb = document.getElementById(`case-feedback`);
+      if (fb) {
+        const cls = opt.correct ? `inset inset--positive` : `inset inset--error`;
+        const label = opt.correct ? `Decisión correcta` : `Decisión improcedente`;
+        fb.innerHTML = `
+          <div class="${cls}" style="margin-bottom: 0;">
+            <strong>${label}:</strong> ${opt.feedback}
+          </div>
+        `;
+      }
+    }
+
+    /* ======================== MODULE 02B: BALLOT LAB ======================== */
+    function buildBallotSvg(type) {
+      let marks = ``;
+      if (type === `bandera`) {
+        marks = `
+          <line x1="22" y1="22" x2="48" y2="42" stroke="var(--data-1)" stroke-width="3.5"/>
+          <line x1="48" y1="22" x2="22" y2="42" stroke="var(--data-1)" stroke-width="3.5"/>
+        `;
+      } else if (type === `preferente`) {
+        marks = `
+          <line x1="78" y1="22" x2="104" y2="42" stroke="var(--data-3)" stroke-width="3.5"/>
+          <line x1="104" y1="22" x2="78" y2="42" stroke="var(--data-3)" stroke-width="3.5"/>
+          <line x1="76" y1="54" x2="90" y2="68" stroke="var(--data-3)" stroke-width="3"/>
+          <line x1="90" y1="54" x2="76" y2="68" stroke="var(--data-3)" stroke-width="3"/>
+          <line x1="76" y1="76" x2="90" y2="90" stroke="var(--data-3)" stroke-width="3"/>
+          <line x1="90" y1="76" x2="76" y2="90" stroke="var(--data-3)" stroke-width="3"/>
+        `;
+      } else if (type === `cruzado`) {
+        marks = `
+          <line x1="22" y1="76" x2="36" y2="90" stroke="var(--data-1)" stroke-width="3"/>
+          <line x1="36" y1="76" x2="22" y2="90" stroke="var(--data-1)" stroke-width="3"/>
+          <line x1="132" y1="54" x2="146" y2="68" stroke="var(--data-2)" stroke-width="3"/>
+          <line x1="146" y1="54" x2="132" y2="68" stroke="var(--data-2)" stroke-width="3"/>
+        `;
+      } else if (type === `nulo`) {
+        marks = `
+          <line x1="22" y1="22" x2="48" y2="42" stroke="var(--error)" stroke-width="3.5"/>
+          <line x1="48" y1="22" x2="22" y2="42" stroke="var(--error)" stroke-width="3.5"/>
+          <line x1="78" y1="22" x2="104" y2="42" stroke="var(--error)" stroke-width="3.5"/>
+          <line x1="104" y1="22" x2="78" y2="42" stroke="var(--error)" stroke-width="3.5"/>
+        `;
+      } else if (type === `impugnado`) {
+        marks = `
+          <path d="M44 35 Q68 18 76 48 Q56 54 62 34" fill="none" stroke="var(--warning)" stroke-width="3"/>
+        `;
+      }
+      return `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 104" width="100%" height="88" aria-hidden="true">
+          <rect x="2" y="2" width="176" height="100" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+          <rect x="14" y="16" width="44" height="30" fill="var(--background)" stroke="var(--outline)" stroke-width="1.2"/>
+          <rect x="68" y="16" width="44" height="30" fill="var(--background)" stroke="var(--outline)" stroke-width="1.2"/>
+          <rect x="122" y="16" width="44" height="30" fill="var(--background)" stroke="var(--outline)" stroke-width="1.2"/>
+          <rect x="18" y="52" width="36" height="18" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1"/>
+          <rect x="18" y="74" width="36" height="18" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1"/>
+          <rect x="72" y="52" width="36" height="18" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1"/>
+          <rect x="72" y="74" width="36" height="18" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1"/>
+          <rect x="126" y="52" width="36" height="18" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1"/>
+          <rect x="126" y="74" width="36" height="18" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1"/>
+          ${marks}
+        </svg>
+      `;
+    }
+
+    function renderBallotLab() {
+      const grid = document.getElementById(`ballot-lab-cards`);
+      const panel = document.getElementById(`ballot-lab-panel`);
+      if (!grid || !panel) return;
+
+      grid.innerHTML = BALLOT_LAB_DATA.map(function(b) {
+        const activeCls = b.id === appState.selectedBallotId ? ` is-active` : ``;
+        const doneTag = appState.ballotsSolved[b.id]
+          ? `<span class="status-tag status-tag--positive">Clasificada</span>`
+          : `<span class="status-tag">Por clasificar</span>`;
+        return `
+          <button type="button" class="ballot-card${activeCls}" onclick="selectBallot('${b.id}')">
+            <div style="margin-bottom: var(--space-xs);">${doneTag}</div>
+            ${buildBallotSvg(b.svg)}
+            <strong style="display: block; margin-top: var(--space-xs);">${b.label}</strong>
+            <span class="muted">${b.desc}</span>
+          </button>
+        `;
+      }).join(``);
+
+      const cur = BALLOT_LAB_DATA.find(function(b) { return b.id === appState.selectedBallotId; }) || BALLOT_LAB_DATA[0];
+      const choices = [
+        { k: `entero_bandera`, t: `Voto válido entero por bandera` },
+        { k: `entero_preferente`, t: `Voto válido entero con preferencia` },
+        { k: `cruzado`, t: `Voto válido cruzado` },
+        { k: `nulo`, t: `Voto nulo (Art. 207 CE)` },
+        { k: `impugnado`, t: `Voto impugnado (Art. 206 CE)` },
+        { k: `abstencion`, t: `Abstención` }
+      ];
+
+      panel.innerHTML = `
+        <h4>Clasificar ${cur.label}</h4>
+        <p>${cur.desc}</p>
+        <div class="btn-row">
+          ${choices.map(function(ch) {
+            return `<button type="button" class="button button--secondary" onclick="classifyBallot('${cur.id}', '${ch.k}')">${ch.t}</button>`;
+          }).join(``)}
+        </div>
+        <div id="ballot-feedback" style="margin-top: var(--space-md);">
+          ${appState.ballotsSolved[cur.id] ? `<div class="inset inset--positive" style="margin-bottom:0;">${cur.explain}</div>` : ``}
+        </div>
+      `;
+    }
+
+    function selectBallot(ballotId) {
+      appState.selectedBallotId = ballotId;
+      renderBallotLab();
+      persistState();
+    }
+
+    function classifyBallot(ballotId, chosenKey) {
+      const cur = BALLOT_LAB_DATA.find(function(b) { return b.id === ballotId; });
+      const fb = document.getElementById(`ballot-feedback`);
+      if (!cur || !fb) return;
+
+      if (chosenKey === cur.answer) {
+        appState.ballotsSolved[ballotId] = true;
+        fb.innerHTML = `<div class="inset inset--positive" style="margin-bottom:0;"><strong>Clasificación correcta.</strong> ${cur.explain}</div>`;
+        updateKPIs();
+        persistState();
+        const cards = document.querySelectorAll(`.ballot-card`);
+        BALLOT_LAB_DATA.forEach(function(b, idx) {
+          if (b.id === ballotId && cards[idx]) {
+            const tag = cards[idx].querySelector(`.status-tag`);
+            if (tag) {
+              tag.className = `status-tag status-tag--positive`;
+              tag.textContent = `Clasificada`;
+            }
+          }
+        });
+      } else {
+        fb.innerHTML = `<div class="inset inset--error" style="margin-bottom:0;"><strong>Clasificación incorrecta.</strong> Revise los criterios de marcas en bandera, rostros y legibilidad de intención.</div>`;
+      }
+    }
+
+    /* ======================== MODULE 03: QUIZ ======================== */
+    function filterQuiz(cat, btnEl) {
+      appState.quizFilter = cat;
+      document.querySelectorAll(`[data-quiz-cat]`).forEach(function(b) { b.classList.remove(`button--active`); });
+      if (btnEl) btnEl.classList.add(`button--active`);
+      renderQuiz();
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById(`quiz-container`);
+      if (!container) return;
+
+      const items = QUIZ_DATA.filter(function(q) {
+        return appState.quizFilter === `all` || q.cat === appState.quizFilter;
+      });
+
+      container.innerHTML = items.map(function(q, idx) {
+        const saved = appState.quizAnswers[q.id];
+        const optsHtml = q.options.map(function(optText, optIdx) {
+          let cls = `option-btn`;
+          if (saved) {
+            if (optIdx === saved.chosen && saved.correct) cls += ` is-correct`;
+            else if (optIdx === saved.chosen && !saved.correct) cls += ` is-wrong`;
+            else if (optIdx === q.correctIdx) cls += ` is-correct`;
+          }
+          return `
+            <button type="button" class="${cls}" onclick="answerQuiz('${q.id}', ${optIdx})">
+              <span class="step-badge">${optIdx + 1}</span>
+              <span>${optText}</span>
+            </button>
+          `;
+        }).join(``);
+
+        let feedbackHtml = ``;
+        if (saved) {
+          const fbCls = saved.correct ? `inset inset--positive` : `inset inset--error`;
+          const fbHead = saved.correct ? `Respuesta correcta.` : `Respuesta incorrecta.`;
+          feedbackHtml = `<div class="${fbCls}" style="margin-top: var(--space-md); margin-bottom: 0;"><strong>${fbHead}</strong> ${q.rationale}</div>`;
+        }
+
+        return `
+          <article class="inset inset--plain" style="margin-bottom: var(--space-lg);">
+            <div class="section-kicker" style="margin-bottom: var(--space-xs);">
+              <span>Reactivo ${idx + 1}</span>
+              <span>·</span>
+              <span>${q.catLabel}</span>
+            </div>
+            <h4>${q.prompt}</h4>
+            <div class="option-stack">${optsHtml}</div>
+            ${feedbackHtml}
+          </article>
+        `;
+      }).join(``);
+    }
+
+    function answerQuiz(qId, optIdx) {
+      const q = QUIZ_DATA.find(function(item) { return item.id === qId; });
+      if (!q) return;
+      appState.quizAnswers[qId] = {
+        chosen: optIdx,
+        correct: optIdx === q.correctIdx
+      };
+      renderQuiz();
+      updateKPIs();
+      persistState();
+    }
+
+    /* ======================== MODULE 04B: MUNICIPAL PLURAL COUNCILS ======================== */
+    function loadMunicipalPreset(name) {
+      const elSize = document.getElementById(`mun-size`);
+      const el1 = document.getElementById(`mun-v1`);
+      const el2 = document.getElementById(`mun-v2`);
+      const el3 = document.getElementById(`mun-v3`);
+      const el4 = document.getElementById(`mun-v4`);
+      if (!elSize || !el1 || !el2 || !el3 || !el4) return;
+
+      if (name === `ahuachapan`) {
+        elSize.value = `4`;
+        el1.value = `18400`;
+        el2.value = `12100`;
+        el3.value = `6800`;
+        el4.value = `2700`;
+      } else {
+        elSize.value = `6`;
+        el1.value = `14200`;
+        el2.value = `13850`;
+        el3.value = `8900`;
+        el4.value = `4050`;
+      }
+      updateMunicipalCalc();
+    }
+
+    function updateMunicipalCalc() {
+      const out = document.getElementById(`mun-output`);
+      if (!out) return;
+
+      const regCount = parseInt((document.getElementById(`mun-size`) || {}).value || `4`, 10);
+      const parties = [
+        { name: `Partido A`, votes: Math.max(0, parseInt((document.getElementById(`mun-v1`) || {}).value || `0`, 10)), fill: `bar-fill--1` },
+        { name: `Partido B`, votes: Math.max(0, parseInt((document.getElementById(`mun-v2`) || {}).value || `0`, 10)), fill: `bar-fill--2` },
+        { name: `Partido C`, votes: Math.max(0, parseInt((document.getElementById(`mun-v3`) || {}).value || `0`, 10)), fill: `bar-fill--3` },
+        { name: `Coalición D`, votes: Math.max(0, parseInt((document.getElementById(`mun-v4`) || {}).value || `0`, 10)), fill: `bar-fill--4` }
+      ];
+
+      const totalVotes = parties.reduce(function(acc, p) { return acc + p.votes; }, 0);
+      if (totalVotes === 0) {
+        out.innerHTML = `<div class="error-msg">Ingrese al menos un voto válido para calcular la composición del Concejo Municipal Plural.</div>`;
+        return;
+      }
+
+      const sorted = parties.slice().sort(function(a, b) { return b.votes - a.votes; });
+      const winner = sorted[0];
+      const winnerShare = winner.votes / totalVotes;
+
+      const totalCouncil = 2 + regCount;
+      const minMajorityTotal = Math.floor(totalCouncil / 2) + 1;
+      const minWinnerReg = Math.max(1, minMajorityTotal - 2);
+      const winnerPropReg = Math.round(winnerShare * regCount);
+      const winnerReg = Math.min(regCount, Math.max(minWinnerReg, winnerPropReg));
+
+      const remainingReg = regCount - winnerReg;
+      const minorities = sorted.slice(1);
+      const minVotes = minorities.reduce(function(acc, p) { return acc + p.votes; }, 0);
+
+      const regAlloc = {};
+      regAlloc[winner.name] = winnerReg;
+      minorities.forEach(function(m) { regAlloc[m.name] = 0; });
+
+      if (remainingReg > 0 && minVotes > 0) {
+        const quota = minVotes / remainingReg;
+        const remainders = minorities.map(function(m) {
+          const exact = m.votes / quota;
+          const base = Math.floor(exact);
+          return { name: m.name, base: base, rem: exact - base };
+        });
+        let used = 0;
+        remainders.forEach(function(r) {
+          regAlloc[r.name] = r.base;
+          used += r.base;
+        });
+        remainders.sort(function(a, b) { return b.rem - a.rem; });
+        let remIdx = 0;
+        while (used < remainingReg && remIdx < remainders.length) {
+          regAlloc[remainders[remIdx].name] += 1;
+          used += 1;
+          remIdx += 1;
+        }
+      }
+
+      const rowsHtml = parties.map(function(p) {
+        const pct = ((p.votes / totalVotes) * 100).toFixed(1);
+        const isWin = p.name === winner.name;
+        const alc = isWin ? 1 : 0;
+        const sin = isWin ? 1 : 0;
+        const reg = regAlloc[p.name] || 0;
+        const tot = alc + sin + reg;
+        return `
+          <tr>
+            <td><strong>${p.name}</strong>${isWin ? ` <span class="status-tag">Mayoría</span>` : ``}</td>
+            <td class="num">${p.votes.toLocaleString(`es-SV`)}</td>
+            <td class="num">${pct}%</td>
+            <td style="min-width: 120px;">
+              <div class="bar-track" aria-hidden="true">
+                <div class="bar-fill ${p.fill}" style="width: ${pct}%;"></div>
+              </div>
+            </td>
+            <td class="num">${alc}</td>
+            <td class="num">${sin}</td>
+            <td class="num">${reg}</td>
+            <td class="num"><strong>${tot}</strong></td>
+          </tr>
+        `;
+      }).join(``);
+
+      out.innerHTML = `
+        <div class="summary-list">
+          <div class="summary-row">
+            <span class="summary-key">Ganador de Alcaldía y Sindicatura</span>
+            <span class="summary-val">${winner.name} (${((winnerShare) * 100).toFixed(1)}% de votos válidos)</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-key">Total de integrantes propietarios del Concejo</span>
+            <span class="summary-val">${totalCouncil} miembros (1 Alcalde + 1 Síndico + ${regCount} Regidores + ${regCount} Suplentes)</span>
+          </div>
+        </div>
+        <div class="table-wrap" style="margin-bottom: 0;">
+          <table>
+            <thead>
+              <tr>
+                <th>Contendiente</th>
+                <th class="num">Votos</th>
+                <th class="num">% Votos</th>
+                <th>Proporción</th>
+                <th class="num">Alcalde</th>
+                <th class="num">Síndico</th>
+                <th class="num">Regidores</th>
+                <th class="num">Total concejo</th>
+              </tr>
+            </thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    /* ======================== MODULE 04C: ART. 214-A CROSS-VOTE & LEGISLATIVE SEATS ======================== */
+    function updateLegislativeCalc() {
+      const errEl = document.getElementById(`leg-error`);
+      const outEl = document.getElementById(`leg-output`);
+      if (!errEl || !outEl) return;
+
+      const M = parseInt((document.getElementById(`leg-seats`) || {}).value || `4`, 10);
+      const entA = Math.max(0, parseInt((document.getElementById(`leg-ent-a`) || {}).value || `0`, 10));
+      const entB = Math.max(0, parseInt((document.getElementById(`leg-ent-b`) || {}).value || `0`, 10));
+      const entC = Math.max(0, parseInt((document.getElementById(`leg-ent-c`) || {}).value || `0`, 10));
+
+      const qty = Math.max(0, parseInt((document.getElementById(`cruz-qty`) || {}).value || `0`, 10));
+      const ma = Math.max(0, parseInt((document.getElementById(`cruz-ma`) || {}).value || `0`, 10));
+      const mb = Math.max(0, parseInt((document.getElementById(`cruz-mb`) || {}).value || `0`, 10));
+      const mc = Math.max(0, parseInt((document.getElementById(`cruz-mc`) || {}).value || `0`, 10));
+
+      const marksPerBallot = ma + mb + mc;
+
+      if (qty > 0 && marksPerBallot > M) {
+        errEl.style.display = `block`;
+        errEl.innerHTML = `<strong>Exceso de marcas (Art. 214-A lit. b CE):</strong> Cada papeleta cruzada tiene <strong>${marksPerBallot} marcas</strong>, lo cual supera el máximo de <strong>${M} diputaciones</strong> permitidas en esta circunscripción. Reduzca las marcas por papeleta a un máximo de ${M}.`;
+        outEl.innerHTML = ``;
+        return;
+      }
+      errEl.style.display = `none`;
+
+      const unitPerMark = marksPerBallot > 0 ? (1 / marksPerBallot) : 0;
+      const fracA = qty * unitPerMark * ma;
+      const fracB = qty * unitPerMark * mb;
+      const fracC = qty * unitPerMark * mc;
+
+      const totA = entA + fracA;
+      const totB = entB + fracB;
+      const totC = entC + fracC;
+      const grandTotal = totA + totB + totC;
+
+      if (grandTotal === 0) {
+        outEl.innerHTML = `<div class="error-msg">Ingrese votos enteros o papeletas cruzadas con marcas válidas para ejecutar el cálculo del Art. 214-A CE.</div>`;
+        return;
+      }
+
+      const lists = [
+        { name: `Partido A`, ent: entA, frac: fracA, tot: totA, seats: 0, fill: `bar-fill--1` },
+        { name: `Partido B`, ent: entB, frac: fracB, tot: totB, seats: 0, fill: `bar-fill--2` },
+        { name: `Partido C`, ent: entC, frac: fracC, tot: totC, seats: 0, fill: `bar-fill--3` }
+      ];
+
+      for (let s = 0; s < M; s++) {
+        let bestIdx = 0;
+        let bestQuot = -1;
+        lists.forEach(function(item, idx) {
+          const quot = item.tot / (item.seats + 1);
+          if (quot > bestQuot) {
+            bestQuot = quot;
+            bestIdx = idx;
+          }
+        });
+        lists[bestIdx].seats += 1;
+      }
+
+      const rowsHtml = lists.map(function(l) {
+        const pct = ((l.tot / grandTotal) * 100).toFixed(1);
+        return `
+          <tr>
+            <td><strong>${l.name}</strong></td>
+            <td class="num">${l.ent.toLocaleString(`es-SV`)}</td>
+            <td class="num">${l.frac.toFixed(2)}</td>
+            <td class="num"><strong>${l.tot.toFixed(2)}</strong></td>
+            <td class="num">${pct}%</td>
+            <td style="min-width: 110px;">
+              <div class="bar-track" aria-hidden="true">
+                <div class="bar-fill ${l.fill}" style="width: ${pct}%;"></div>
+              </div>
+            </td>
+            <td class="num"><strong>${l.seats}</strong></td>
+          </tr>
+        `;
+      }).join(``);
+
+      outEl.innerHTML = `
+        <div class="summary-list">
+          <div class="summary-row">
+            <span class="summary-key">Valor numérico por marca cruzada (1 / ${marksPerBallot || 1})</span>
+            <span class="summary-val">${marksPerBallot > 0 ? unitPerMark.toFixed(4) : `0.0000`} votos por marca (Art. 214-A lit. c CE)</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-key">Total de votos consolidados (enteros + fraccionados)</span>
+            <span class="summary-val">${grandTotal.toFixed(2)} votos válidos entre ${M} curules</span>
+          </div>
+        </div>
+        <div class="table-wrap" style="margin-bottom: var(--space-sm);">
+          <table>
+            <thead>
+              <tr>
+                <th>Partido / Lista</th>
+                <th class="num">Enteros</th>
+                <th class="num">Voto cruzado</th>
+                <th class="num">Total consolidado</th>
+                <th class="num">%</th>
+                <th>Peso electoral</th>
+                <th class="num">Escaños asignados</th>
+              </tr>
+            </thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+        </div>
+        <p class="muted" style="margin-bottom: 0;">
+          Nota operativa: Una vez definidos los escaños por lista (Art. 217 CE), el orden de ingreso de cada candidatura
+          se determina sumando las marcas de preferencia obtenidas tanto en votos enteros con preferencia como en votos
+          cruzados (Art. 205 CE).
+        </p>
+      `;
+    }
+
+    /* ======================== INIT ======================== */
+    async function initApp() {
+      await loadPersistedState();
+      selectOrgNode(appState.selectedOrg);
+      filterEntities(appState.entityFilter);
+      selectTimelinePhase(appState.timelinePhase);
+      renderCaseList();
+      renderActiveCase();
+      renderBallotLab();
+      renderQuiz();
+      updateMunicipalCalc();
+      updateLegislativeCalc();
+      updateKPIs();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>
